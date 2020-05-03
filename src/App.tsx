@@ -1,11 +1,13 @@
 import React from 'react';
 
-function App() {
+// import { Container } from './styles';
+
+const App: React.FC = () => {
   return (
-    <div className="App">
+    <div>
       <h1>Hello</h1>
     </div>
   );
-}
+};
 
 export default App;

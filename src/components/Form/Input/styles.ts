@@ -5,6 +5,7 @@ export const Container = styled.div`
   color: ${({ theme }) => theme.colors.grayHard};
   border-radius: 10px;
   padding: 16px;
+  height: 56px;
   width: 100%;
 
   display: flex;

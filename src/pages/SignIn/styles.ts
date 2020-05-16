@@ -19,5 +19,9 @@ export const Container = styled.div`
 
     max-width: 340px;
     width: 100%;
+
+    button {
+      font-weight: 500;
+    }
   }
 `;

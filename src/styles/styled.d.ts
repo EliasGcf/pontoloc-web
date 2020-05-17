@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import 'styled-components';
 
 declare module 'styled-components' {
@@ -12,6 +13,7 @@ declare module 'styled-components' {
       shape: string;
       background: string;
       dark: string;
+      error: string;
     };
   }
 }

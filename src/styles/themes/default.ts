@@ -9,5 +9,6 @@ export default {
     shape: '#3E3B47',
     background: '#312E38',
     dark: '#232129',
+    error: '#EE4D64',
   },
 };

@@ -2,25 +2,25 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
 
-interface AuthState {
+interface IAuthState {
   token: string;
   user: object;
 }
 
-interface SignInCredentials {
+interface ISignInCredentials {
   email: string;
   password: string;
 }
 
-interface AuthContextData {
+interface IAuthContextData {
   user: object;
-  signIn(credential: SignInCredentials): Promise<void>;
+  signIn(credential: ISignInCredentials): Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState>(() => {
+  const [data, setData] = useState<IAuthState>(() => {
     const token = localStorage.getItem('@PontoLoc:token');
     const user = localStorage.getItem('@PontoLoc:user');
 
@@ -28,19 +28,22 @@ const AuthProvider: React.FC = ({ children }) => {
       return { token, user: JSON.parse(user) };
     }
 
-    return {} as AuthState;
+    return {} as IAuthState;
   });
 
-  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    const response = await api.post('sessions', { email, password });
+  const signIn = useCallback(
+    async ({ email, password }: ISignInCredentials) => {
+      const response = await api.post('sessions', { email, password });
 
-    const { token, user } = response.data;
+      const { token, user } = response.data;
 
-    localStorage.setItem('@PontoLoc:token', token);
-    localStorage.setItem('@PontoLoc:user', JSON.stringify(user));
+      localStorage.setItem('@PontoLoc:token', token);
+      localStorage.setItem('@PontoLoc:user', JSON.stringify(user));
 
-    setData({ token, user });
-  }, []);
+      setData({ token, user });
+    },
+    [],
+  );
 
   return (
     <AuthContext.Provider value={{ user: data.user, signIn }}>
@@ -49,7 +52,7 @@ const AuthProvider: React.FC = ({ children }) => {
   );
 };
 
-function useAuth(): AuthContextData {
+function useAuth(): IAuthContextData {
   const context = useContext(AuthContext);
 
   if (!context) {

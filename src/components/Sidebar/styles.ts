@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 interface IContainerProps {
   isOpened: boolean;
@@ -32,17 +32,7 @@ export const Container = styled.div<IContainerProps>`
     a {
       display: flex;
       align-items: center;
-
-      ${props =>
-        props.isOpened
-          ? css`
-              padding: 0 14px 0 30px;
-              justify-content: space-between;
-            `
-          : css`
-              padding: 0;
-              justify-content: center;
-            `}
+      justify-content: space-around;
 
       font-size: 20px;
       font-weight: 500;

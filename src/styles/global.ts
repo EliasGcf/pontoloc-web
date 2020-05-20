@@ -8,15 +8,19 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html, body, #root, .App {
+    height: 100%;
+  }
+
   body {
-   background: ${({ theme }) => theme.colors.background};
-   color:  ${({ theme }) => theme.colors.white};
-   -webkit-font-smoothing: antialiased;
+    background: ${({ theme }) => theme.colors.background};
+    color:  ${({ theme }) => theme.colors.white};
+    -webkit-font-smoothing: antialiased;
   }
 
   body, input, button {
-   font-family: 'Roboto', sans-serif;
-   font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
   }
 
   h1, h2, h3, h4, h5, h6, strong {
@@ -24,7 +28,7 @@ export default createGlobalStyle`
   }
 
   button {
-   cursor: pointer;
+    cursor: pointer;
   }
 
   input:-webkit-autofill,

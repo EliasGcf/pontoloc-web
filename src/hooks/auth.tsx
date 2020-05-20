@@ -25,6 +25,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem('@PontoLoc:user');
 
     if (token && user) {
+      api.defaults.headers.Authorization = `Bearer ${token}`;
       return { token, user: JSON.parse(user) };
     }
 
@@ -36,6 +37,8 @@ const AuthProvider: React.FC = ({ children }) => {
       const response = await api.post('sessions', { email, password });
 
       const { token, user } = response.data;
+
+      api.defaults.headers.Authorization = `Bearer ${token}`;
 
       localStorage.setItem('@PontoLoc:token', token);
       localStorage.setItem('@PontoLoc:user', JSON.stringify(user));

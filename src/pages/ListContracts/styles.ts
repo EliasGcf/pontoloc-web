@@ -5,7 +5,7 @@ import { Form as UForm } from '@unform/web';
 
 export const Container = styled.div`
   width: 100%;
-  padding: 60px 32px 0;
+  padding: 60px 48px 0;
   /* padding: 60px 135px 0 55px; */
 `;
 
@@ -13,6 +13,7 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 56px;
 
   h1 {
     font-weight: normal;
@@ -70,4 +71,59 @@ export const AddButton = styled.button`
   svg {
     margin-right: 8px;
   }
+`;
+
+export const TableHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 18px;
+`;
+
+export const Table = styled.table`
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 24px;
+`;
+
+export const ThName = styled.th`
+  width: 400px;
+  text-align: left;
+  padding-left: 16px;
+`;
+
+export const ThDate = styled.th``;
+
+export const ThDaily = styled.th`
+  width: 400px;
+  text-align: right;
+  padding-right: 16px;
+`;
+
+export const ClientRow = styled.tr`
+  td:nth-child(1) {
+    width: 400px;
+    padding-left: 16px;
+    height: 56px;
+
+    border-radius: 10px 0 0 10px;
+  }
+
+  td:nth-child(2) {
+    text-align: center;
+    height: 56px;
+  }
+
+  td:nth-child(3) {
+    width: 400px;
+    height: 56px;
+
+    text-align: right;
+    padding-right: 16px;
+    border-radius: 0 10px 10px 0;
+  }
+
+  background: ${({ theme }) => theme.colors.shape};
+  font-size: 16px;
 `;

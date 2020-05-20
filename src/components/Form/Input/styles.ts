@@ -36,6 +36,7 @@ export const Container = styled.div<IContainerProps>`
   input {
     flex: 1;
     background: transparent;
+    font-size: 18px;
     border: 0;
     color: ${({ theme }) => theme.colors.white};
 

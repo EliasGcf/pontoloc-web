@@ -9,12 +9,11 @@ import logoImg from '../../assets/logo.png';
 
 import { useAuth } from '../../hooks/auth';
 
-import Button from '../../components/Button';
 import { UInput } from '../../components/Form';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { Container } from './styles';
+import { Container, SubmitButton } from './styles';
 
 interface ISignInFormData {
   email: string;
@@ -64,7 +63,7 @@ const SignIn: React.FC = () => {
           placeholder="Senha"
           type="password"
         />
-        <Button type="submit">Entrar</Button>
+        <SubmitButton type="submit">Entrar</SubmitButton>
       </Form>
     </Container>
   );

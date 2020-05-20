@@ -10,7 +10,7 @@ const ListContracts: React.FC = () => {
     <S.Container>
       <S.Header>
         <S.Form onSubmit={data => console.log(data)}>
-          <UInput icon={FiSearch} name="search" />
+          <UInput placeholder="Buscar" icon={FiSearch} name="search" />
           <S.SearchButton type="submit">
             <FiSearch size={24} />
           </S.SearchButton>
@@ -19,6 +19,7 @@ const ListContracts: React.FC = () => {
             CADASTRAR
           </S.AddButton>
         </S.Form>
+
         <h1>Aluguéis</h1>
       </S.Header>
     </S.Container>

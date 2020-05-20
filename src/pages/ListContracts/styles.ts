@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { shade, lighten } from 'polished';
+
 import { Form as UForm } from '@unform/web';
 
 export const Container = styled.div`
   width: 100%;
-  padding: 60px 30px 0;
+  padding: 60px 32px 0;
   /* padding: 60px 135px 0 55px; */
 `;
 
@@ -31,7 +32,7 @@ export const SearchButton = styled.button`
   justify-content: center;
 
   border: none;
-  margin: 0 15px;
+  margin: 0 16px;
   padding: 0 16px;
   height: 56px;
   border-radius: 10px;

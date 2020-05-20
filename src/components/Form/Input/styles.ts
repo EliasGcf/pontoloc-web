@@ -13,7 +13,6 @@ export const Container = styled.div<IContainerProps>`
   padding: 16px;
   height: 56px;
   width: 100%;
-  border: 2px solid ${({ theme }) => theme.colors.dark};
 
   display: flex;
   align-items: center;
@@ -25,20 +24,14 @@ export const Container = styled.div<IContainerProps>`
   ${props =>
     props.isErrored &&
     css`
-      border-color: ${props.theme.colors.error};
+      color: ${props.theme.colors.error};
     `}
 
   ${props =>
-    props.isFocused &&
+    props.isField &&
     css`
-      border-color: ${props.theme.colors.yellow};
+      color: ${props.theme.colors.yellow};
     `}
-
-    ${props =>
-      props.isField &&
-      css`
-        color: ${props.theme.colors.yellow};
-      `}
 
   input {
     flex: 1;

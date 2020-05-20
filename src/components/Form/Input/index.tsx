@@ -18,16 +18,9 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<IInputProps> = ({ name, icon: Icon, ...rest }) => {
   const { fieldName, defaultValue, error, registerField } = useField(name);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isFocused, setIsFocused] = useState(false);
   const [isField, setIsField] = useState(false);
 
-  const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
-
   const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-
     setIsField(!!inputRef.current?.value);
   }, []);
 
@@ -40,10 +33,9 @@ const Input: React.FC<IInputProps> = ({ name, icon: Icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isErrored={!!error} isField={isField} isFocused={isFocused}>
+    <Container isErrored={!!error} isField={isField}>
       {Icon && <Icon size={20} />}
       <input
-        onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         ref={inputRef}
         defaultValue={defaultValue}

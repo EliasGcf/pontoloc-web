@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 
 interface IContainerProps {
-  isFocused: boolean;
   isField: boolean;
   isErrored: boolean;
 }

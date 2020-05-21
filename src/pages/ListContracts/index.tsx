@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FiSearch, FiPlus } from 'react-icons/fi';
 
 import { UInput } from '../../components/Form';
@@ -17,17 +18,25 @@ interface IContracts {
 
 const ListContracts: React.FC = () => {
   const [contracts, setContracts] = useState<IContracts[]>([]);
+  const [pagesAvailable, setPagesAvailable] = useState(false);
+  const { search } = useLocation();
+
+  const [page, setPage] = useState(() => {
+    return new URLSearchParams(search).get('page') || 1;
+  });
 
   useEffect(() => {
     async function loadContracts(): Promise<void> {
-      const response = await api.get('/contracts');
+      const response = await api.get('/contracts', { params: { page } });
 
-      console.log(response.data);
+      const totalCount = response.headers['x-total-count'];
+
+      setPagesAvailable(Number.isInteger(totalCount / 7));
       setContracts(response.data);
     }
 
     loadContracts();
-  }, []);
+  }, [page]);
 
   return (
     <S.Container>

@@ -21,8 +21,8 @@ const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<IAuthState>(() => {
-    const token = localStorage.getItem('@PontoLoc:token');
-    const user = localStorage.getItem('@PontoLoc:user');
+    const token = sessionStorage.getItem('@PontoLoc:token');
+    const user = sessionStorage.getItem('@PontoLoc:user');
 
     if (token && user) {
       api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -31,6 +31,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
     return {} as IAuthState;
   });
+  // const [data, setData] = useState<IAuthState>({} as IAuthState);
 
   const signIn = useCallback(
     async ({ email, password }: ISignInCredentials) => {
@@ -40,8 +41,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
       api.defaults.headers.Authorization = `Bearer ${token}`;
 
-      localStorage.setItem('@PontoLoc:token', token);
-      localStorage.setItem('@PontoLoc:user', JSON.stringify(user));
+      sessionStorage.setItem('@PontoLoc:token', token);
+      sessionStorage.setItem('@PontoLoc:user', JSON.stringify(user));
 
       setData({ token, user });
     },

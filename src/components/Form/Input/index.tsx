@@ -19,9 +19,16 @@ const Input: React.FC<IInputProps> = ({ name, icon: Icon, ...rest }) => {
   const { fieldName, defaultValue, error, registerField } = useField(name);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isField, setIsField] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
     setIsField(!!inputRef.current?.value);
+  }, []);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
   }, []);
 
   useEffect(() => {
@@ -33,9 +40,10 @@ const Input: React.FC<IInputProps> = ({ name, icon: Icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isErrored={!!error} isField={isField}>
+    <Container isErrored={!!error} isField={isField} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
       <input
+        onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         ref={inputRef}
         defaultValue={defaultValue}

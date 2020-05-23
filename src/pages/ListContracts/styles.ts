@@ -2,48 +2,33 @@ import styled from 'styled-components';
 import { shade, lighten } from 'polished';
 
 import { Form as UForm } from '@unform/web';
+import IconButton from '../../components/IconButton';
 
 export const Container = styled.div`
+  max-width: 1200px;
   width: 100%;
-  padding: 60px 48px 0;
+  padding-top: 60px;
+  margin: 0 auto;
+  /* padding: 60px 48px 0; */
   /* padding: 60px 135px 0 55px; */
 `;
 
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 56px;
 
   h1 {
     font-weight: normal;
     font-size: 32px;
+    margin-left: auto;
   }
 `;
 
 export const Form = styled(UForm)`
   display: flex;
-  max-width: 600px;
+  max-width: 415px;
   width: 100%;
-`;
-
-export const SearchButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  margin: 0 16px;
-  padding: 0 16px;
-  height: 56px;
-  border-radius: 10px;
-
-  background: ${({ theme }) => theme.colors.yellow};
-
-  transition: background 0.3s;
-  &:hover {
-    background: ${({ theme }) => shade(0.2, theme.colors.yellow)};
-  }
 `;
 
 export const AddButton = styled.button`
@@ -52,6 +37,7 @@ export const AddButton = styled.button`
   justify-content: center;
 
   height: 56px;
+  margin-left: 16px;
 
   font-weight: 500;
   font-size: 18px;
@@ -126,4 +112,13 @@ export const ClientRow = styled.tr`
 
   background: ${({ theme }) => theme.colors.shape};
   font-size: 16px;
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const pageButton = styled(IconButton)`
+  height: 46px;
 `;

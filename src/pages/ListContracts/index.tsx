@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FiSearch, FiPlus } from 'react-icons/fi';
+import { FiSearch, FiPlus, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 import { UInput } from '../../components/Form';
+import IconButton from '../../components/IconButton';
 import api from '../../services/api';
 
 import * as S from './styles';
@@ -43,14 +44,13 @@ const ListContracts: React.FC = () => {
       <S.Header>
         <S.Form onSubmit={data => console.log(data)}>
           <UInput placeholder="Buscar" icon={FiSearch} name="search" />
-          <S.SearchButton type="submit">
-            <FiSearch size={24} />
-          </S.SearchButton>
-          <S.AddButton type="submit">
-            <FiPlus size={24} />
-            CADASTRAR
-          </S.AddButton>
+          <IconButton style={{ marginLeft: 16 }} icon={FiSearch} />
         </S.Form>
+
+        <S.AddButton type="submit">
+          <FiPlus size={24} />
+          CADASTRAR
+        </S.AddButton>
 
         <h1>Aluguéis</h1>
       </S.Header>
@@ -72,6 +72,11 @@ const ListContracts: React.FC = () => {
           ))}
         </tbody>
       </S.Table>
+
+      <S.Pagination>
+        <S.pageButton icon={FiArrowLeft} />
+        <S.pageButton icon={FiArrowRight} />
+      </S.Pagination>
     </S.Container>
   );
 };

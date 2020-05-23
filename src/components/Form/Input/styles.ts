@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 interface IContainerProps {
   isField: boolean;
   isErrored: boolean;
+  isFocused: boolean;
 }
 
 export const Container = styled.div<IContainerProps>`
@@ -25,6 +26,12 @@ export const Container = styled.div<IContainerProps>`
     css`
       color: ${props.theme.colors.error};
     `}
+
+    ${props =>
+      props.isFocused &&
+      css`
+        color: ${props.theme.colors.yellow};
+      `}
 
   ${props =>
     props.isField &&

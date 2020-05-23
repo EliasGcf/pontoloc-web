@@ -10,6 +10,7 @@ import * as S from './styles';
 
 interface IContracts {
   id: string;
+  number: number;
   client: {
     name: string;
   };
@@ -41,42 +42,47 @@ const ListContracts: React.FC = () => {
 
   return (
     <S.Container>
-      <S.Header>
-        <S.Form onSubmit={data => console.log(data)}>
-          <UInput placeholder="Buscar" icon={FiSearch} name="search" />
-          <IconButton style={{ marginLeft: 16 }} icon={FiSearch} />
-        </S.Form>
+      <S.Content>
+        <S.Header>
+          <S.Form onSubmit={data => console.log(data)}>
+            <UInput placeholder="Buscar" icon={FiSearch} name="search" />
+            <IconButton style={{ marginLeft: 16 }} icon={FiSearch} />
+          </S.Form>
 
-        <S.AddButton type="submit">
-          <FiPlus size={24} />
-          CADASTRAR
-        </S.AddButton>
+          <S.AddButton type="submit">
+            <FiPlus size={24} />
+            CADASTRAR
+          </S.AddButton>
 
-        <h1>Aluguéis</h1>
-      </S.Header>
+          <h1>Aluguéis</h1>
+        </S.Header>
 
-      <S.TableHeader>
-        <strong>NOME</strong>
-        <strong>DATA DE RETIRADA</strong>
-        <strong>DIÁRIA</strong>
-      </S.TableHeader>
+        <S.Table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>NOME</th>
+              <th>DATA DE RETIRADA</th>
+              <th>DIÁRIA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contracts.map(contract => (
+              <S.ClientRow key={contract.id}>
+                <td>{contract.number}</td>
+                <td>{contract.client.name}</td>
+                <td>{contract.created_at}</td>
+                <td>{`R$ ${contract.daily_total_price}`}</td>
+              </S.ClientRow>
+            ))}
+          </tbody>
+        </S.Table>
 
-      <S.Table>
-        <tbody>
-          {contracts.map(contract => (
-            <S.ClientRow key={contract.id}>
-              <td>{contract.client.name}</td>
-              <td>{contract.created_at}</td>
-              <td>{`R$ ${contract.daily_total_price}`}</td>
-            </S.ClientRow>
-          ))}
-        </tbody>
-      </S.Table>
-
-      <S.Pagination>
-        <S.pageButton icon={FiArrowLeft} />
-        <S.pageButton icon={FiArrowRight} />
-      </S.Pagination>
+        <S.Pagination>
+          <S.pageButton icon={FiArrowLeft} />
+          <S.pageButton icon={FiArrowRight} />
+        </S.Pagination>
+      </S.Content>
     </S.Container>
   );
 };

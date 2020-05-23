@@ -5,18 +5,27 @@ import { Form as UForm } from '@unform/web';
 import IconButton from '../../components/IconButton';
 
 export const Container = styled.div`
+  width: 100%;
+  display: flex;
+
+  /* padding: 60px 48px 0; */
+  /* padding: 60px 135px 0 55px; */
+`;
+
+export const Content = styled.div`
   max-width: 1200px;
   width: 100%;
   padding-top: 60px;
   margin: 0 auto;
-  /* padding: 60px 48px 0; */
-  /* padding: 60px 135px 0 55px; */
+
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 56px;
+  margin-bottom: 32px;
 
   h1 {
     font-weight: normal;
@@ -59,52 +68,48 @@ export const AddButton = styled.button`
   }
 `;
 
-export const TableHeader = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-size: 18px;
-`;
-
 export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 24px;
-`;
 
-export const ThName = styled.th`
-  width: 400px;
-  text-align: left;
-  padding-left: 16px;
-`;
+  tr {
+    th {
+      font-size: 18px;
+      font-weight: 500;
+    }
 
-export const ThDate = styled.th``;
+    th:nth-child(1) {
+      text-align: left;
+      padding-left: 16px;
+    }
 
-export const ThDaily = styled.th`
-  width: 400px;
-  text-align: right;
-  padding-right: 16px;
+    th:nth-child(4) {
+      text-align: right;
+      padding-right: 16px;
+    }
+  }
 `;
 
 export const ClientRow = styled.tr`
-  td:nth-child(1) {
-    width: 400px;
-    padding-left: 16px;
+  td {
     height: 56px;
+  }
+
+  td:nth-child(1) {
+    padding-left: 16px;
 
     border-radius: 10px 0 0 10px;
   }
 
   td:nth-child(2) {
     text-align: center;
-    height: 56px;
+  }
+  td:nth-child(3) {
+    text-align: center;
   }
 
-  td:nth-child(3) {
-    width: 400px;
-    height: 56px;
-
+  td:nth-child(4) {
     text-align: right;
     padding-right: 16px;
     border-radius: 0 10px 10px 0;
@@ -117,6 +122,8 @@ export const ClientRow = styled.tr`
 export const Pagination = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: 60px;
 `;
 
 export const pageButton = styled(IconButton)`

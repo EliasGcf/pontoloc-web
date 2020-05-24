@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FiSearch, FiPlus, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
@@ -18,35 +18,58 @@ interface IContracts {
   created_at: Date;
 }
 
+interface ISearchFormData {
+  name: string;
+}
+
 const ListContracts: React.FC = () => {
   const [contracts, setContracts] = useState<IContracts[]>([]);
-  const [pagesAvailable, setPagesAvailable] = useState(false);
+  const [pagesAvailable, setPagesAvailable] = useState(0);
   const { search } = useLocation();
 
   const [page, setPage] = useState(() => {
-    return new URLSearchParams(search).get('page') || 1;
+    return Number(new URLSearchParams(search).get('page')) || 1;
   });
+  const [searchName, setSearchName] = useState('');
 
   useEffect(() => {
     async function loadContracts(): Promise<void> {
-      const response = await api.get('/contracts', { params: { page } });
+      const response = await api.get('/contracts', {
+        params: { page, name: searchName },
+      });
 
       const totalCount = response.headers['x-total-count'];
 
-      setPagesAvailable(Number.isInteger(totalCount / 7));
+      setPagesAvailable(Math.ceil(totalCount / 7));
       setContracts(response.data);
     }
 
     loadContracts();
-  }, [page]);
+  }, [page, searchName]);
+
+  const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
+    setSearchName(name);
+  }, []);
+
+  const incrementPage = useCallback(() => {
+    setPage(state => state + 1);
+  }, []);
+
+  const decrementPage = useCallback(() => {
+    setPage(state => state - 1);
+  }, []);
 
   return (
     <S.Container>
       <S.Content>
         <S.Header>
-          <S.Form onSubmit={data => console.log(data)}>
-            <UInput placeholder="Buscar" icon={FiSearch} name="search" />
-            <IconButton style={{ marginLeft: 16 }} icon={FiSearch} />
+          <S.Form onSubmit={handleSearchSubmit}>
+            <UInput placeholder="Buscar" icon={FiSearch} name="name" />
+            <IconButton
+              type="submit"
+              style={{ marginLeft: 16 }}
+              icon={FiSearch}
+            />
           </S.Form>
 
           <S.AddButton type="submit">
@@ -79,8 +102,18 @@ const ListContracts: React.FC = () => {
         </S.Table>
 
         <S.Pagination>
-          <S.pageButton icon={FiArrowLeft} />
-          <S.pageButton icon={FiArrowRight} />
+          <S.pageButton
+            disabled={page === 1}
+            onClick={decrementPage}
+            type="button"
+            icon={FiArrowLeft}
+          />
+          <S.pageButton
+            disabled={page === pagesAvailable}
+            onClick={incrementPage}
+            type="button"
+            icon={FiArrowRight}
+          />
         </S.Pagination>
       </S.Content>
     </S.Container>

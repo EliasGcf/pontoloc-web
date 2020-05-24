@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade, lighten } from 'polished';
 
 import { Form as UForm } from '@unform/web';
@@ -128,4 +128,14 @@ export const Pagination = styled.div`
 
 export const pageButton = styled(IconButton)`
   height: 46px;
+
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+      background: ${({ theme }) => shade(0.2, theme.colors.yellow)};
+      &:hover {
+        background: ${({ theme }) => shade(0.2, theme.colors.yellow)};
+      }
+    `}
 `;

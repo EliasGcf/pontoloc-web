@@ -9,7 +9,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const IconButton: React.FC<ButtonProps> = ({ icon: Icon, ...rest }) => {
   return (
-    <Container {...rest} type="submit">
+    <Container {...rest}>
       <Icon size={24} />
     </Container>
   );

@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Ring } from 'react-awesome-spinners';
 import { useLocation } from 'react-router-dom';
-import { FiSearch, FiPlus, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
-import { UInput } from '../../components/Form';
-import IconButton from '../../components/IconButton';
 import api from '../../services/api';
+import { formatPrice } from '../../utils/format';
+
+import Header from './components/Header';
 
 import * as S from './styles';
 
@@ -15,7 +17,9 @@ interface IContracts {
     name: string;
   };
   daily_total_price: number;
-  created_at: Date;
+  formatted_price: string;
+  created_at: string;
+  formatted_created_at: string;
 }
 
 interface ISearchFormData {
@@ -25,6 +29,7 @@ interface ISearchFormData {
 const ListContracts: React.FC = () => {
   const [contracts, setContracts] = useState<IContracts[]>([]);
   const [pagesAvailable, setPagesAvailable] = useState(0);
+  const [loading, setLoading] = useState(false);
   const { search } = useLocation();
 
   const [page, setPage] = useState(() => {
@@ -34,14 +39,33 @@ const ListContracts: React.FC = () => {
 
   useEffect(() => {
     async function loadContracts(): Promise<void> {
-      const response = await api.get('/contracts', {
-        params: { page, name: searchName },
-      });
+      try {
+        setLoading(true);
+        const response = await api.get<IContracts[]>('/contracts', {
+          params: { page, name: searchName },
+        });
 
-      const totalCount = response.headers['x-total-count'];
+        const data = response.data.map(contract => {
+          const date = new Date(contract.created_at);
+          const dateFormated = date.toLocaleDateString('pt-BR');
+          const dateTime = date.getHours();
 
-      setPagesAvailable(Math.ceil(totalCount / 7));
-      setContracts(response.data);
+          return {
+            ...contract,
+            formatted_created_at: `${dateFormated} - ${dateTime}h`,
+            formatted_price: formatPrice(contract.daily_total_price),
+          };
+        });
+
+        const totalCount = response.headers['x-total-count'];
+
+        setPagesAvailable(Math.ceil(totalCount / 7));
+        setContracts(data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
     }
 
     loadContracts();
@@ -62,45 +86,34 @@ const ListContracts: React.FC = () => {
   return (
     <S.Container>
       <S.Content>
-        <S.Header>
-          <S.Form onSubmit={handleSearchSubmit}>
-            <UInput placeholder="Buscar" icon={FiSearch} name="name" />
-            <IconButton
-              type="submit"
-              style={{ marginLeft: 16 }}
-              icon={FiSearch}
-            />
-          </S.Form>
+        <Header onSubmit={handleSearchSubmit} />
 
-          <S.AddButton type="submit">
-            <FiPlus size={24} />
-            CADASTRAR
-          </S.AddButton>
-
-          <h1>Aluguéis</h1>
-        </S.Header>
-
-        <S.Table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>NOME</th>
-              <th>DATA DE RETIRADA</th>
-              <th>DIÁRIA</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contracts.map(contract => (
-              <S.ClientRow key={contract.id}>
-                <td>{contract.number}</td>
-                <td>{contract.client.name}</td>
-                <td>{contract.created_at}</td>
-                <td>{`R$ ${contract.daily_total_price}`}</td>
-              </S.ClientRow>
-            ))}
-          </tbody>
-        </S.Table>
-
+        {loading ? (
+          <S.LoadingSpinnerContainer>
+            <Ring size={100} color="#FBC131" />
+          </S.LoadingSpinnerContainer>
+        ) : (
+          <S.Table>
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>NOME</th>
+                <th>DATA DE RETIRADA</th>
+                <th>DIÁRIA</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contracts.map(contract => (
+                <S.ClientRow key={contract.id}>
+                  <td>{contract.number}</td>
+                  <td>{contract.client.name}</td>
+                  <td>{contract.formatted_created_at}</td>
+                  <td>{contract.formatted_price}</td>
+                </S.ClientRow>
+              ))}
+            </tbody>
+          </S.Table>
+        )}
         <S.Pagination>
           <S.pageButton
             disabled={page === 1}

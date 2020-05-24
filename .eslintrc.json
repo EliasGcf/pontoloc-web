@@ -34,6 +34,7 @@
     "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
     "react-hooks/rules-of-hooks": "error",
+    "@typescript-eslint/camelcase": "off",
     "react-hooks/exhaustive-deps": "warn",
     "no-unused-expressions": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],

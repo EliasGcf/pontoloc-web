@@ -85,7 +85,6 @@ const ListContracts: React.FC = () => {
 
   return (
     <S.Container>
-      {console.log(pagesAvailable)}
       <S.Content>
         <Header onSubmit={handleSearchSubmit} />
 
@@ -94,26 +93,28 @@ const ListContracts: React.FC = () => {
             <Ring size={100} color="#FBC131" />
           </S.LoadingSpinnerContainer>
         ) : (
-          <S.Table>
-            <thead>
-              <tr>
-                <th>Nº</th>
-                <th>NOME</th>
-                <th>DATA DE RETIRADA</th>
-                <th>DIÁRIA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contracts.map(contract => (
-                <S.ClientRow key={contract.id}>
-                  <td>{contract.number}</td>
-                  <td>{contract.client.name}</td>
-                  <td>{contract.formatted_created_at}</td>
-                  <td>{contract.formatted_price}</td>
-                </S.ClientRow>
-              ))}
-            </tbody>
-          </S.Table>
+          contracts.length !== 0 && (
+            <S.Table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>NOME</th>
+                  <th>DATA DE RETIRADA</th>
+                  <th>DIÁRIA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contracts.map(contract => (
+                  <S.ClientRow key={contract.id}>
+                    <td>{contract.number}</td>
+                    <td>{contract.client.name}</td>
+                    <td>{contract.formatted_created_at}</td>
+                    <td>{contract.formatted_price}</td>
+                  </S.ClientRow>
+                ))}
+              </tbody>
+            </S.Table>
+          )
         )}
         <S.Pagination>
           <S.pageButton

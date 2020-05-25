@@ -24,6 +24,11 @@ export const Container = styled.div<IContainerProps>`
       border: none;
       margin-right: 14px;
       color: ${({ theme }) => theme.colors.white};
+      transition: color 0.3s;
+
+      &:hover {
+        color: ${({ theme }) => theme.colors.yellow};
+      }
     }
   }
 

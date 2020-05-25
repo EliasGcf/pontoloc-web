@@ -85,6 +85,7 @@ const ListContracts: React.FC = () => {
 
   return (
     <S.Container>
+      {console.log(pagesAvailable)}
       <S.Content>
         <Header onSubmit={handleSearchSubmit} />
 
@@ -122,7 +123,7 @@ const ListContracts: React.FC = () => {
             icon={FiArrowLeft}
           />
           <S.pageButton
-            disabled={page === pagesAvailable}
+            disabled={pagesAvailable === 0 || page === pagesAvailable}
             onClick={incrementPage}
             type="button"
             icon={FiArrowRight}

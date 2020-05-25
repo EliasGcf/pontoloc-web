@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { shade } from 'polished';
-import { Ring } from 'react-awesome-spinners';
 
 import IconButton from '../../components/IconButton';
 

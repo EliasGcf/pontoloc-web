@@ -9,6 +9,7 @@ export const Container = styled.div<IContainerProps>`
   width: 100%;
   height: 100vh;
   background: ${({ theme }) => theme.colors.shape};
+  transition: max-width 500ms ease;
 
   > div {
     width: 100%;

@@ -38,15 +38,15 @@ const Sidebar: React.FC = () => {
       </div>
       <nav>
         <NavLink to="/contracts">
-          {isOpened ? 'Aluguéis' : null}
+          {isOpened && 'Aluguéis'}
           <FiTruck size={24} />
         </NavLink>
         <NavLink to="/clients">
-          {isOpened ? 'Clientes' : null}
+          {isOpened && 'Clientes'}
           <FiUsers size={24} />
         </NavLink>
         <NavLink to="/materials">
-          {isOpened ? 'Materiais' : null}
+          {isOpened && 'Materiais'}
           <img src={toolSvg} alt="tool" />
         </NavLink>
       </nav>

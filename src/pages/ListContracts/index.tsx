@@ -42,7 +42,7 @@ const ListContracts: React.FC = () => {
       try {
         setLoading(true);
         const response = await api.get<IContracts[]>('/contracts', {
-          params: { page, name: searchName },
+          params: { page, name: searchName || undefined },
         });
 
         const data = response.data.map(contract => {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 import { ThemeProvider } from 'styled-components';
 
 import GlobalStyle from './styles/global';
@@ -13,7 +14,9 @@ const App: React.FC = () => {
     <ThemeProvider theme={defaultTheme}>
       <AppProvider>
         <BrowserRouter>
-          <Routes />
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <Routes />
+          </QueryParamProvider>
         </BrowserRouter>
       </AppProvider>
 

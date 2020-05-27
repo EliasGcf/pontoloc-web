@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import { FiX, FiTruck, FiUsers, FiMenu } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
@@ -37,15 +37,15 @@ const Sidebar: React.FC = () => {
         </button>
       </div>
       <nav>
-        <NavLink to="/contracts">
+        <NavLink to="/contracts?page=1">
           {isOpened && 'Aluguéis'}
           <FiTruck size={24} />
         </NavLink>
-        <NavLink to="/clients">
+        <NavLink to="/clients?page=1">
           {isOpened && 'Clientes'}
           <FiUsers size={24} />
         </NavLink>
-        <NavLink to="/materials">
+        <NavLink to="/materials?page=1">
           {isOpened && 'Materiais'}
           <img src={toolSvg} alt="tool" />
         </NavLink>
@@ -54,4 +54,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

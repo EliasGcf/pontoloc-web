@@ -37,6 +37,12 @@
   <a href="#-license">License</a>
 </p>
 
+</br>
+
+<p align="center">
+  <img alt="Layout" src="https://res.cloudinary.com/eliasgcf/image/upload/v1590610781/pontoloc/Kapture_2020-05-24_at_17.46.44_swudxx.gif">
+</p>
+
 ## 👨🏻‍💻 About the project
 
 This is a ReactJS web client that will be used by the company manager!

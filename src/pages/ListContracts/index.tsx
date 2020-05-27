@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { useLocation } from 'react-router-dom';
+import { useQueryParams, NumberParam, StringParam } from 'use-query-params';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 import api from '../../services/api';
@@ -30,17 +31,24 @@ const ListContracts: React.FC = () => {
   const [contracts, setContracts] = useState<IContracts[]>([]);
   const [pagesAvailable, setPagesAvailable] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { search } = useLocation();
+
+  const [query, setQuery] = useQueryParams({
+    page: NumberParam,
+    name: StringParam,
+  });
 
   const [page, setPage] = useState(() => {
-    return Number(new URLSearchParams(search).get('page')) || 1;
+    return query.page || 1;
   });
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState(() => {
+    return query.name || '';
+  });
 
   useEffect(() => {
     async function loadContracts(): Promise<void> {
       try {
         setLoading(true);
+        setQuery({ page, name: searchName || undefined });
         const response = await api.get<IContracts[]>('/contracts', {
           params: { page, name: searchName || undefined },
         });
@@ -69,7 +77,7 @@ const ListContracts: React.FC = () => {
     }
 
     loadContracts();
-  }, [page, searchName]);
+  }, [page, searchName, setQuery]);
 
   const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
     setSearchName(name);

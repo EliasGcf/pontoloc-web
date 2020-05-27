@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Ring } from 'react-awesome-spinners';
-import { useLocation } from 'react-router-dom';
 
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { NumberParam, StringParam, useQueryParams } from 'use-query-params';
 import Header from './components/Header';
 
 import * as S from './styles';
@@ -24,11 +24,18 @@ const ListMaterials: React.FC = () => {
   const [materials, setMaterials] = useState<IMaterial[]>([]);
   const [loading, setLoading] = useState(false);
   const [pagesAvailable, setPagesAvailable] = useState(0);
-  const { search } = useLocation();
-  const [searchName, setSearchName] = useState('');
-  const [page, setPage] = useState(
-    () => Number(new URLSearchParams(search).get('page')) || 1,
-  );
+
+  const [query, setQuery] = useQueryParams({
+    page: NumberParam,
+    name: StringParam,
+  });
+
+  const [page, setPage] = useState(() => {
+    return query.page || 1;
+  });
+  const [searchName, setSearchName] = useState(() => {
+    return query.name || '';
+  });
 
   const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
     setSearchName(name);
@@ -46,6 +53,7 @@ const ListMaterials: React.FC = () => {
     async function loadMaterials(): Promise<void> {
       try {
         setLoading(true);
+        setQuery({ page, name: searchName || undefined });
         const response = await api.get<IMaterial[]>('/materials', {
           params: { page, name: searchName || undefined },
         });

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import { FiX, FiTruck, FiUsers, FiMenu } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
@@ -54,4 +54,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

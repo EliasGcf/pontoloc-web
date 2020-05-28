@@ -7,22 +7,24 @@ import Header from './components/Header';
 
 import * as S from './styles';
 import api from '../../services/api';
+import { useToast } from '../../hooks/toast';
 
-interface IClient {
+interface Client {
   id: string;
   name: string;
   cpf: string;
   phone_number: string;
 }
 
-interface ISearchFormData {
+interface SearchFormData {
   name: string;
 }
 
 const ListClients: React.FC = () => {
-  const [clients, setClients] = useState<IClient[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(false);
   const [pagesAvailable, setPagesAvailable] = useState(0);
+  const { addToast } = useToast();
 
   const [query, setQuery] = useQueryParams({
     page: NumberParam,
@@ -36,7 +38,7 @@ const ListClients: React.FC = () => {
     return query.name || '';
   });
 
-  const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
+  const handleSearchSubmit = useCallback(({ name }: SearchFormData) => {
     setSearchName(name);
   }, []);
 
@@ -45,31 +47,35 @@ const ListClients: React.FC = () => {
   }, []);
 
   const decrementPage = useCallback(() => {
-    setPage(state => state - 1);
+    setPage(state => (state !== 1 ? state - 1 : 1));
   }, []);
 
   useEffect(() => {
     async function loadClients(): Promise<void> {
       try {
         setLoading(true);
-        setQuery({ page, name: searchName || undefined });
-        const response = await api.get<IClient[]>('/clients', {
+
+        const response = await api.get<Client[]>('/clients', {
           params: { page, name: searchName || undefined },
         });
 
         const totalCount = response.headers['x-total-count'];
 
+        setQuery({ page, name: searchName || undefined });
         setPagesAvailable(Math.ceil(totalCount / 7));
         setClients(response.data);
       } catch (err) {
-        console.log(err);
+        addToast({
+          type: 'error',
+          title: 'Erro na busca',
+        });
       } finally {
         setLoading(false);
       }
     }
 
     loadClients();
-  }, [page, searchName, setQuery]);
+  }, [page, searchName, setQuery, addToast]);
 
   return (
     <S.Container>

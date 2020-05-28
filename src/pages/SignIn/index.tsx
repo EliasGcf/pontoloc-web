@@ -14,8 +14,9 @@ import { UInput } from '../../components/Form';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, SubmitButton } from './styles';
+import { useToast } from '../../hooks/toast';
 
-interface ISignInFormData {
+interface SignInFormData {
   email: string;
   password: string;
 }
@@ -25,9 +26,10 @@ const SignIn: React.FC = () => {
 
   const { signIn } = useAuth();
   const hisotry = useHistory();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
-    async ({ email, password }: ISignInFormData) => {
+    async ({ email, password }: SignInFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -47,9 +49,16 @@ const SignIn: React.FC = () => {
 
           formRef.current?.setErrors(errors);
         }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description:
+            'Ocorreu um error ao fazer login, cheque as credenciais.',
+        });
       }
     },
-    [hisotry, signIn],
+    [hisotry, signIn, addToast],
   );
 
   return (

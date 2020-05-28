@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Ring } from 'react-awesome-spinners';
-import { useLocation } from 'react-router-dom';
 import { useQueryParams, NumberParam, StringParam } from 'use-query-params';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
@@ -10,8 +9,9 @@ import { formatPrice } from '../../utils/format';
 import Header from './components/Header';
 
 import * as S from './styles';
+import { useToast } from '../../hooks/toast';
 
-interface IContracts {
+interface Contracts {
   id: string;
   number: number;
   client: {
@@ -23,14 +23,15 @@ interface IContracts {
   formatted_created_at: string;
 }
 
-interface ISearchFormData {
+interface SearchFormData {
   name: string;
 }
 
 const ListContracts: React.FC = () => {
-  const [contracts, setContracts] = useState<IContracts[]>([]);
+  const [contracts, setContracts] = useState<Contracts[]>([]);
   const [pagesAvailable, setPagesAvailable] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { addToast } = useToast();
 
   const [query, setQuery] = useQueryParams({
     page: NumberParam,
@@ -48,8 +49,7 @@ const ListContracts: React.FC = () => {
     async function loadContracts(): Promise<void> {
       try {
         setLoading(true);
-        setQuery({ page, name: searchName || undefined });
-        const response = await api.get<IContracts[]>('/contracts', {
+        const response = await api.get<Contracts[]>('/contracts', {
           params: { page, name: searchName || undefined },
         });
 
@@ -67,19 +67,23 @@ const ListContracts: React.FC = () => {
 
         const totalCount = response.headers['x-total-count'];
 
+        setQuery({ page, name: searchName || undefined });
         setPagesAvailable(Math.ceil(totalCount / 7));
         setContracts(data);
       } catch (err) {
-        console.log(err);
+        addToast({
+          type: 'error',
+          title: 'Erro na busca',
+        });
       } finally {
         setLoading(false);
       }
     }
 
     loadContracts();
-  }, [page, searchName, setQuery]);
+  }, [page, searchName, setQuery, addToast]);
 
-  const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
+  const handleSearchSubmit = useCallback(({ name }: SearchFormData) => {
     setSearchName(name);
   }, []);
 
@@ -88,7 +92,7 @@ const ListContracts: React.FC = () => {
   }, []);
 
   const decrementPage = useCallback(() => {
-    setPage(state => state - 1);
+    setPage(state => (state !== 1 ? state - 1 : 1));
   }, []);
 
   return (

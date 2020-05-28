@@ -8,22 +8,24 @@ import Header from './components/Header';
 import * as S from './styles';
 import api from '../../services/api';
 import { formatPrice } from '../../utils/format';
+import { useToast } from '../../hooks/toast';
 
-interface IMaterial {
+interface Material {
   id: string;
   name: string;
   daily_price: number;
   formatted_price: string;
 }
 
-interface ISearchFormData {
+interface SearchFormData {
   name: string;
 }
 
 const ListMaterials: React.FC = () => {
-  const [materials, setMaterials] = useState<IMaterial[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(false);
   const [pagesAvailable, setPagesAvailable] = useState(0);
+  const { addToast } = useToast();
 
   const [query, setQuery] = useQueryParams({
     page: NumberParam,
@@ -37,7 +39,7 @@ const ListMaterials: React.FC = () => {
     return query.name || '';
   });
 
-  const handleSearchSubmit = useCallback(({ name }: ISearchFormData) => {
+  const handleSearchSubmit = useCallback(({ name }: SearchFormData) => {
     setSearchName(name);
   }, []);
 
@@ -46,15 +48,15 @@ const ListMaterials: React.FC = () => {
   }, []);
 
   const decrementPage = useCallback(() => {
-    setPage(state => state - 1);
+    setPage(state => (state !== 1 ? state - 1 : 1));
   }, []);
 
   useEffect(() => {
     async function loadMaterials(): Promise<void> {
       try {
         setLoading(true);
-        setQuery({ page, name: searchName || undefined });
-        const response = await api.get<IMaterial[]>('/materials', {
+
+        const response = await api.get<Material[]>('/materials', {
           params: { page, name: searchName || undefined },
         });
 
@@ -65,17 +67,21 @@ const ListMaterials: React.FC = () => {
           formatted_price: formatPrice(material.daily_price),
         }));
 
+        setQuery({ page, name: searchName || undefined });
         setPagesAvailable(Math.ceil(totalCount / 7));
         setMaterials(data);
       } catch (err) {
-        console.log(err);
+        addToast({
+          type: 'error',
+          title: 'Erro na busca',
+        });
       } finally {
         setLoading(false);
       }
     }
 
     loadMaterials();
-  }, [page, searchName]);
+  }, [page, searchName, setQuery, addToast]);
 
   return (
     <S.Container>

@@ -47,7 +47,8 @@ export const Table = styled.table`
     }
 
     th:last-child {
-      text-align: center;
+      text-align: right;
+      padding-right: 16px;
     }
   }
 `;
@@ -63,8 +64,9 @@ export const MaterialRow = styled.tr`
   }
 
   td:last-child {
-    text-align: center;
+    text-align: right;
     border-radius: 0 10px 10px 0;
+    padding-right: 16px;
   }
 
   background: ${({ theme }) => theme.colors.shape};

@@ -65,7 +65,6 @@ const ListMaterials: React.FC = () => {
           formatted_price: formatPrice(material.daily_price),
         }));
 
-        console.log(Math.ceil(totalCount / 7));
         setPagesAvailable(Math.ceil(totalCount / 7));
         setMaterials(data);
       } catch (err) {

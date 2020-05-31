@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Ring } from 'react-awesome-spinners';
 
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-import { NumberParam, useQueryParams, StringParam } from 'use-query-params';
+import { NumberParam, useQueryParam, StringParam } from 'use-query-params';
 import Header from './components/Header';
 
 import * as S from './styles';
@@ -24,31 +24,26 @@ const ListClients: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(false);
   const [pagesAvailable, setPagesAvailable] = useState(0);
+  const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
+  const [queryName, setQueryName] = useQueryParam('name', StringParam);
+
   const { addToast } = useToast();
 
-  const [query, setQuery] = useQueryParams({
-    page: NumberParam,
-    name: StringParam,
-  });
-
-  const [page, setPage] = useState(() => {
-    return query.page || 1;
-  });
-  const [searchName, setSearchName] = useState(() => {
-    return query.name || '';
-  });
-
-  const handleSearchSubmit = useCallback(({ name }: SearchFormData) => {
-    setSearchName(name);
-  }, []);
+  const handleSearchSubmit = useCallback(
+    ({ name }: SearchFormData, { reset }) => {
+      setQueryName(name || undefined);
+      reset();
+    },
+    [setQueryName],
+  );
 
   const incrementPage = useCallback(() => {
-    setPage(state => state + 1);
-  }, []);
+    setQueryPage(state => (state || 1) + 1);
+  }, [setQueryPage]);
 
   const decrementPage = useCallback(() => {
-    setPage(state => (state !== 1 ? state - 1 : 1));
-  }, []);
+    setQueryPage(state => (state || 2) - 1);
+  }, [setQueryPage]);
 
   useEffect(() => {
     async function loadClients(): Promise<void> {
@@ -56,12 +51,14 @@ const ListClients: React.FC = () => {
         setLoading(true);
 
         const response = await api.get<Client[]>('/clients', {
-          params: { page, name: searchName || undefined },
+          params: {
+            page: queryPage || 1,
+            name: queryName || undefined,
+          },
         });
 
         const totalCount = response.headers['x-total-count'];
 
-        setQuery({ page, name: searchName || undefined });
         setPagesAvailable(Math.ceil(totalCount / 7));
         setClients(response.data);
       } catch (err) {
@@ -75,7 +72,7 @@ const ListClients: React.FC = () => {
     }
 
     loadClients();
-  }, [page, searchName, setQuery, addToast]);
+  }, [addToast, queryName, queryPage]);
 
   return (
     <S.Container>
@@ -110,13 +107,13 @@ const ListClients: React.FC = () => {
         )}
         <S.Pagination>
           <S.pageButton
-            disabled={page === 1}
+            disabled={queryPage === 1 || !queryPage}
             onClick={decrementPage}
             type="button"
             icon={FiArrowLeft}
           />
           <S.pageButton
-            disabled={pagesAvailable === 0 || page === pagesAvailable}
+            disabled={pagesAvailable === 1 || queryPage === pagesAvailable}
             onClick={incrementPage}
             type="button"
             icon={FiArrowRight}

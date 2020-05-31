@@ -6,15 +6,19 @@ import IconButton from '../../../../components/IconButton';
 
 import * as S from './styles';
 
-interface ISearchFormData {
+interface SearchFormData {
   name: string;
 }
 
-interface IHeaderProps {
-  onSubmit(data: ISearchFormData): void;
+interface SubmitData {
+  reset(): void;
 }
 
-const Header: React.FC<IHeaderProps> = ({ onSubmit }) => {
+interface HeaderProps {
+  onSubmit(data: SearchFormData, options?: SubmitData): void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onSubmit }) => {
   return (
     <S.Header>
       <S.Form onSubmit={onSubmit}>

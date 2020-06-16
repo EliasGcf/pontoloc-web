@@ -1,12 +1,12 @@
 import styled, { css } from 'styled-components';
 
-interface IContainerProps {
+interface ContainerProps {
   isField: boolean;
   isErrored: boolean;
   isFocused: boolean;
 }
 
-export const Container = styled.div<IContainerProps>`
+export const Container = styled.div<ContainerProps>`
   background: ${({ theme }) => theme.colors.dark};
   color: ${({ theme }) => theme.colors.grayHard};
   border-radius: 10px;
@@ -54,4 +54,11 @@ export const Container = styled.div<IContainerProps>`
   svg {
     margin-right: 16px;
   }
+`;
+
+export const Error = styled.small`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.error};
+  display: block;
+  margin: 8px 0 0 8px;
 `;

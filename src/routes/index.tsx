@@ -5,6 +5,7 @@ import SignIn from '../pages/SignIn';
 import ListContracts from '../pages/ListContracts';
 import ListClients from '../pages/ListClients';
 import ListMaterials from '../pages/ListMaterials';
+import CreateClient from '../pages/CreateClient';
 
 import Route from './Route';
 
@@ -13,8 +14,10 @@ const Routes: React.FC = () => {
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/contracts" component={ListContracts} isPrivate />
-      <Route path="/clients" component={ListClients} isPrivate />
+      <Route path="/clients" exact component={ListClients} isPrivate />
       <Route path="/materials" component={ListMaterials} isPrivate />
+
+      <Route path="/clients/register" component={CreateClient} isPrivate />
     </Switch>
   );
 };

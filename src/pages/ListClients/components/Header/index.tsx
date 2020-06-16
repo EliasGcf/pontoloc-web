@@ -26,10 +26,10 @@ const Header: React.FC<HeaderProps> = ({ onSubmit }) => {
         <IconButton type="submit" style={{ marginLeft: 16 }} icon={FiSearch} />
       </S.Form>
 
-      <S.AddButton type="submit">
+      <S.AddLink to="/clients/register">
         <FiPlus size={24} />
         CADASTRAR
-      </S.AddButton>
+      </S.AddLink>
 
       <h1>Clientes</h1>
     </S.Header>

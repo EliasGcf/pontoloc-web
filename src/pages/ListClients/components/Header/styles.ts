@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Form as UForm } from '@unform/web';
 import { lighten } from 'polished';
+import { Link } from 'react-router-dom';
 
 export const Header = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ export const Form = styled(UForm)`
   width: 100%;
 `;
 
-export const AddButton = styled.button`
+export const AddLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,6 +38,8 @@ export const AddButton = styled.button`
 
   color: ${({ theme }) => theme.colors.white};
   background: ${({ theme }) => theme.colors.grayHard};
+
+  text-decoration: none;
 
   transition: background 0.3s;
   &:hover {

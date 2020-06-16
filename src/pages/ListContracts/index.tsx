@@ -133,7 +133,7 @@ const ListContracts: React.FC = () => {
             icon={FiArrowLeft}
           />
           <S.pageButton
-            disabled={pagesAvailable === 1 || queryPage === pagesAvailable}
+            disabled={pagesAvailable <= 1 || queryPage === pagesAvailable}
             onClick={incrementPage}
             type="button"
             icon={FiArrowRight}

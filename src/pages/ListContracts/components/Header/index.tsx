@@ -16,14 +16,25 @@ interface SubmitData {
 
 interface HeaderProps {
   onSubmit(data: SearchFormData, options?: SubmitData): void;
+  disabled?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSubmit }) => {
+const Header: React.FC<HeaderProps> = ({ onSubmit, disabled = false }) => {
   return (
     <S.Header>
       <S.Form onSubmit={onSubmit}>
-        <UInput placeholder="Buscar" icon={FiSearch} name="name" />
-        <IconButton type="submit" style={{ marginLeft: 16 }} icon={FiSearch} />
+        <UInput
+          placeholder="Buscar"
+          icon={FiSearch}
+          name="name"
+          disabled={disabled}
+        />
+        <IconButton
+          type="submit"
+          style={{ marginLeft: 16 }}
+          icon={FiSearch}
+          disabled={disabled}
+        />
       </S.Form>
 
       <S.AddButton type="submit">

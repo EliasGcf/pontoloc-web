@@ -6,6 +6,7 @@ import IconButton from '../../components/IconButton';
 export const Container = styled.div`
   width: 100%;
   display: flex;
+  padding: 0 16px;
 
   /* padding: 60px 48px 0; */
   /* padding: 60px 135px 0 55px; */
@@ -21,13 +22,19 @@ export const Content = styled.div`
   flex-direction: column;
 `;
 
-export const LoadingSpinnerContainer = styled.div`
+export const MessageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 
   height: 100%;
-  margin-bottom: 60px;
+  width: 100%;
+
+  span {
+    font-size: 24px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.white};
+  }
 `;
 
 export const Table = styled.table`

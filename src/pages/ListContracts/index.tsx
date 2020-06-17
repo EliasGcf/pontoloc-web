@@ -30,7 +30,7 @@ interface SearchFormData {
 const ListContracts: React.FC = () => {
   const [contracts, setContracts] = useState<Contracts[]>([]);
   const [pagesAvailable, setPagesAvailable] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
 
@@ -39,7 +39,6 @@ const ListContracts: React.FC = () => {
   useEffect(() => {
     async function loadContracts(): Promise<void> {
       try {
-        setLoading(true);
         const response = await api.get<Contracts[]>('/contracts', {
           params: {
             page: queryPage || 1,
@@ -92,39 +91,67 @@ const ListContracts: React.FC = () => {
     setQueryPage(state => (state || 2) - 1);
   }, [setQueryPage]);
 
+  if (loading) {
+    return (
+      <S.Container>
+        <S.Content>
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled={contracts.length === 0 || loading}
+          />
+          <S.MessageContainer>
+            <Ring size={100} color="#FBC131" />
+          </S.MessageContainer>
+        </S.Content>
+      </S.Container>
+    );
+  }
+
+  if (contracts.length === 0) {
+    return (
+      <S.Container>
+        <S.Content>
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled={contracts.length === 0 || loading}
+          />
+          <S.MessageContainer>
+            <span>Nenhum contrato foi encontrado.</span>
+          </S.MessageContainer>
+        </S.Content>
+      </S.Container>
+    );
+  }
+
   return (
     <S.Container>
       <S.Content>
-        <Header onSubmit={handleSearchSubmit} />
+        <Header
+          onSubmit={handleSearchSubmit}
+          disabled={contracts.length === 0 || loading}
+        />
 
-        {loading ? (
-          <S.LoadingSpinnerContainer>
-            <Ring size={100} color="#FBC131" />
-          </S.LoadingSpinnerContainer>
-        ) : (
-          contracts.length !== 0 && (
-            <S.Table>
-              <thead>
-                <tr>
-                  <th>Nº</th>
-                  <th>NOME</th>
-                  <th>DATA DE RETIRADA</th>
-                  <th>DIÁRIA</th>
-                </tr>
-              </thead>
-              <tbody>
-                {contracts.map(contract => (
-                  <S.ClientRow key={contract.id}>
-                    <td>{contract.number}</td>
-                    <td>{contract.client.name}</td>
-                    <td>{contract.formatted_created_at}</td>
-                    <td>{contract.formatted_price}</td>
-                  </S.ClientRow>
-                ))}
-              </tbody>
-            </S.Table>
-          )
-        )}
+        <S.Table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>NOME</th>
+              <th>DATA DE RETIRADA</th>
+              <th>DIÁRIA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contracts.map(contract => (
+              <S.ClientRow key={contract.id}>
+                <td>{contract.number}</td>
+                <td>{contract.client.name}</td>
+                <td>{contract.formatted_created_at}</td>
+                <td>{contract.formatted_price}</td>
+              </S.ClientRow>
+            ))}
+          </tbody>
+        </S.Table>
+
         <S.Pagination>
           <S.pageButton
             disabled={queryPage === 1 || !queryPage}

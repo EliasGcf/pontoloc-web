@@ -2,10 +2,13 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 
 import SignIn from '../pages/SignIn';
-import ListContracts from '../pages/ListContracts';
-import ListClients from '../pages/ListClients';
-import ListMaterials from '../pages/ListMaterials';
-import CreateClient from '../pages/CreateClient';
+
+import ListContracts from '../pages/Contracts/ListContracts';
+
+import ListClients from '../pages/Clients/ListClients';
+import CreateClient from '../pages/Clients/CreateClient';
+
+import ListMaterials from '../pages/Materials/ListMaterials';
 
 import Route from './Route';
 

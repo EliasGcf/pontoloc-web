@@ -8,13 +8,12 @@ import { useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.png';
 
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import { UInput } from '../../components/Form';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, SubmitButton } from './styles';
-import { useToast } from '../../hooks/toast';
 
 interface SignInFormData {
   email: string;

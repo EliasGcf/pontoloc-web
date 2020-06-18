@@ -37,21 +37,11 @@ export const Content = styled.div`
 export const Form = styled(UnForm)`
   margin-top: 32px;
 
-  div {
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 
-    & + div {
-      margin-top: 16px;
-    }
-
-    label {
-      width: 100%;
-
-      & + label {
-        width: 340px;
-        margin-left: 16px;
-      }
-    }
+  label + label {
+    margin-left: 16px;
   }
 `;

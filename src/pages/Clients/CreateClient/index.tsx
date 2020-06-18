@@ -7,7 +7,7 @@ import getValidationErrors from '../../../utils/getValidationErrors';
 import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 import {
-  UInput,
+  InputLabel,
   InputMask,
   BackButton,
   RegisterButton,
@@ -62,6 +62,7 @@ const CreateClient: React.FC = () => {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
+          return;
         }
 
         addToast({
@@ -90,45 +91,41 @@ const CreateClient: React.FC = () => {
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">
-              <span>NOME COMPLETO</span>
-              <UInput
-                id="name"
-                name="name"
-                placeholder="Digite o nome"
-                showErros
-                autoFocus
-              />
-            </label>
+            <InputLabel
+              label="NOME COMPLETO"
+              id="name"
+              name="name"
+              placeholder="Digite o nome"
+              autoFocus
+            />
             <label htmlFor="cpf">
-              <span>CPF</span>
+              CPF
               <InputMask
                 maskChar={null}
                 mask="999.999.999-99"
                 id="cpf"
                 name="cpf"
                 placeholder="Digite o CPF"
+                style={{ marginTop: 8 }}
               />
             </label>
           </div>
           <div>
-            <label htmlFor="address">
-              <span>ENDEREÇO</span>
-              <UInput
-                id="address"
-                name="address"
-                placeholder="Digite o endereço"
-                showErros
-              />
-            </label>
+            <InputLabel
+              label="ENDEREÇO"
+              id="address"
+              name="address"
+              placeholder="Digite o endereço"
+            />
             <label htmlFor="phone_number">
-              <span>TELEFONE</span>
+              TELEFONE
               <InputMask
                 maskChar={null}
                 mask="(99) 9.9999-9999"
                 id="phone_number"
                 name="phone_number"
                 placeholder="Digite o telefone"
+                style={{ marginTop: 8 }}
               />
             </label>
           </div>

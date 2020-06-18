@@ -4,12 +4,12 @@ import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { ButtonContainer } from './styles';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  disabled: boolean;
+  disabled?: boolean;
   changePageTo: 'increment' | 'decrement';
 };
 
 const ChangePageButton: React.FC<ButtonProps> = ({
-  disabled,
+  disabled = false,
   changePageTo,
   ...rest
 }) => {

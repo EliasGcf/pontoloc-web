@@ -77,7 +77,7 @@ const ListClients: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header onSubmit={handleSearchSubmit} />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>
@@ -124,16 +124,19 @@ const ListClients: React.FC = () => {
         </S.Table>
 
         <S.Pagination>
-          <ChangePageButton
-            changePageTo="decrement"
-            disabled={queryPage === 1 || !queryPage}
-            onClick={decrementPage}
-          />
-          <ChangePageButton
-            changePageTo="increment"
-            disabled={pagesAvailable <= 1 || queryPage === pagesAvailable}
-            onClick={incrementPage}
-          />
+          {!(queryPage === 1 || !queryPage) && (
+            <ChangePageButton
+              changePageTo="decrement"
+              onClick={decrementPage}
+            />
+          )}
+          {!(pagesAvailable <= 1 || queryPage === pagesAvailable) && (
+            <ChangePageButton
+              changePageTo="increment"
+              onClick={incrementPage}
+              style={{ marginLeft: 'auto' }}
+            />
+          )}
         </S.Pagination>
       </S.Content>
     </S.Container>

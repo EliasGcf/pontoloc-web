@@ -4,6 +4,7 @@ interface ContainerProps {
   isField: boolean;
   isErrored: boolean;
   isFocused: boolean;
+  isDisabled: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -39,6 +40,12 @@ export const Container = styled.div<ContainerProps>`
       color: ${props.theme.colors.yellow};
     `}
 
+  ${props =>
+    props.isDisabled &&
+    css`
+      cursor: not-allowed;
+    `}
+
   input {
     flex: 1;
     background: transparent;
@@ -49,16 +56,13 @@ export const Container = styled.div<ContainerProps>`
     &::placeholder {
       color: ${({ theme }) => theme.colors.grayHard};
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   svg {
     margin-right: 16px;
   }
-`;
-
-export const Error = styled.small`
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.error};
-  display: block;
-  margin: 8px 0 0 8px;
 `;

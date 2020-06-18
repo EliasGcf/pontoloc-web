@@ -23,7 +23,7 @@ interface SearchFormData {
 
 const ListClients: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [pagesAvailable, setPagesAvailable] = useState(0);
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
@@ -49,8 +49,6 @@ const ListClients: React.FC = () => {
   useEffect(() => {
     async function loadClients(): Promise<void> {
       try {
-        setLoading(true);
-
         const response = await api.get<Client[]>('/clients', {
           params: {
             page: queryPage || 1,

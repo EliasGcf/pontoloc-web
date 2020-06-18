@@ -24,7 +24,7 @@ interface SearchFormData {
 
 const ListMaterials: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [pagesAvailable, setPagesAvailable] = useState(0);
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
@@ -50,8 +50,6 @@ const ListMaterials: React.FC = () => {
   useEffect(() => {
     async function loadMaterials(): Promise<void> {
       try {
-        setLoading(true);
-
         const response = await api.get<Material[]>('/materials', {
           params: {
             page: queryPage || 1,

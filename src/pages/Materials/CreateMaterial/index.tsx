@@ -37,6 +37,7 @@ const CreateMaterial: React.FC = () => {
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome do material é obrigatório'),
           daily_price: Yup.number()
+            .min(0, 'Valor mínimo é R$ 0,00')
             .typeError('Diária do material é obrigatória')
             .required('Diária do material é obrigatória'),
         });

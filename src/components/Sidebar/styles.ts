@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-interface IContainerProps {
+interface ContainerProps {
   isOpened: boolean;
 }
 
-export const Container = styled.div<IContainerProps>`
+export const Container = styled.div<ContainerProps>`
   max-width: ${props => (props.isOpened ? '250px' : '60px')};
   width: 100%;
   height: 100vh;
@@ -19,10 +19,23 @@ export const Container = styled.div<IContainerProps>`
     height: 60px;
 
     button {
-      background: none;
+      width: 100%;
       height: 100%;
+      background: none;
       border: none;
-      margin-right: 14px;
+      display: flex;
+      align-items: center;
+
+      ${props =>
+        props.isOpened
+          ? css`
+              justify-content: flex-end;
+              margin-right: 32px;
+            `
+          : css`
+              justify-content: center;
+            `}
+
       color: ${({ theme }) => theme.colors.white};
       transition: color 0.3s;
 
@@ -38,7 +51,16 @@ export const Container = styled.div<IContainerProps>`
     a {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+
+      ${props =>
+        props.isOpened
+          ? css`
+              justify-content: space-between;
+              padding: 0 32px;
+            `
+          : css`
+              justify-content: space-around;
+            `}
 
       font-size: 20px;
       font-weight: 500;

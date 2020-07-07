@@ -83,7 +83,7 @@ const ListMaterials: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} />
+          <Header onSubmit={handleSearchSubmit} disabled />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>

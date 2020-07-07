@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
@@ -21,6 +21,7 @@ interface SignInFormData {
 }
 
 const SignIn: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
@@ -39,6 +40,7 @@ const SignIn: React.FC = () => {
 
         await schema.validate({ email, password }, { abortEarly: false });
 
+        setIsLoading(true);
         await signIn({ email, password });
 
         hisotry.push('/contracts');
@@ -55,6 +57,8 @@ const SignIn: React.FC = () => {
           description:
             'Ocorreu um error ao fazer login, cheque as credenciais.',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [hisotry, signIn, addToast],
@@ -77,7 +81,9 @@ const SignIn: React.FC = () => {
           placeholder="Senha"
           type="password"
         />
-        <SubmitButton type="submit">Entrar</SubmitButton>
+        <SubmitButton disabled={isLoading} type="submit">
+          {isLoading ? 'Carregando...' : 'Entrar'}
+        </SubmitButton>
       </Form>
     </Container>
   );

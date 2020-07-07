@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
@@ -23,6 +23,7 @@ interface CreateClientFormData {
 }
 
 const CreateClient: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
 
@@ -50,6 +51,7 @@ const CreateClient: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
+        setIsLoading(true);
         await api.post('/clients', data);
         formRef.current?.reset();
 
@@ -71,6 +73,8 @@ const CreateClient: React.FC = () => {
           description:
             'Ocorreu um error na criação de um cliente, tente novamente mais tarde!',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [addToast],
@@ -85,7 +89,10 @@ const CreateClient: React.FC = () => {
           <section>
             <BackButton />
 
-            <RegisterButton onClick={handleButtonSubmit} />
+            <RegisterButton
+              isLoading={isLoading}
+              onClick={handleButtonSubmit}
+            />
           </section>
         </header>
 

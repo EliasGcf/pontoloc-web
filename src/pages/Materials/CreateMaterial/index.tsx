@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
@@ -20,6 +20,7 @@ interface CreateMaterialFormData {
 }
 
 const CreateMaterial: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
 
   const { addToast } = useToast();
@@ -42,6 +43,7 @@ const CreateMaterial: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
+        setIsLoading(true);
         await api.post('/materials', data);
         formRef.current?.reset();
 
@@ -63,6 +65,8 @@ const CreateMaterial: React.FC = () => {
           description:
             'Ocorreu um error na criação de um material, tente novamente mais tarde!',
         });
+      } finally {
+        setIsLoading(false);
       }
     },
     [addToast],
@@ -77,7 +81,10 @@ const CreateMaterial: React.FC = () => {
           <section>
             <BackButton />
 
-            <RegisterButton onClick={handleButtonSubmit} />
+            <RegisterButton
+              isLoading={isLoading}
+              onClick={handleButtonSubmit}
+            />
           </section>
         </header>
 

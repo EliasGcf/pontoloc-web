@@ -27,4 +27,9 @@ export const ButtonContainer = styled.button`
   &:hover {
     background: ${({ theme }) => darken(0.2, theme.colors.yellow)};
   }
+
+  &:disabled {
+    background: ${({ theme }) => darken(0.2, theme.colors.yellow)};
+    cursor: not-allowed;
+  }
 `;

@@ -6,6 +6,7 @@ import {
   BackButton,
   RegisterButton,
   InputLabel,
+  InputCurrency,
 } from '../../../components/Form';
 
 import { useToast } from '../../../hooks/toast';
@@ -96,11 +97,10 @@ const CreateMaterial: React.FC = () => {
             label="NOME"
             placeholder="Digite o nome do material"
           />
-          <InputLabel
+          <InputCurrency
             name="daily_price"
             label="DIÁRIA"
-            placeholder="Digite a diária do material"
-            type="number"
+            placeholder="R$ 0,00"
           />
         </Form>
       </Content>

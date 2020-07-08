@@ -93,7 +93,7 @@ const CreateMaterial: React.FC = () => {
         <Form ref={formRef} onSubmit={handleSubmit}>
           <InputLabel
             name="name"
-            lable_name="material-name"
+            label_name="material-name"
             label="NOME"
             placeholder="Digite o nome do material"
           />

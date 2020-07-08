@@ -6,13 +6,13 @@ import { LabelContainer } from './styles';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
-  lable_name?: string;
+  label_name?: string;
 }
 
 const InputLabel: React.FC<InputProps> = ({
   name,
   label,
-  lable_name = '',
+  label_name = '',
   className,
   ...rest
 }) => {
@@ -28,11 +28,11 @@ const InputLabel: React.FC<InputProps> = ({
   }, [fieldName, registerField]);
 
   return (
-    <LabelContainer htmlFor={lable_name || name} className={className}>
+    <LabelContainer htmlFor={label_name || name} className={className}>
       {label}
       <input
-        name={lable_name || name}
-        id={lable_name || name}
+        name={label_name || name}
+        id={label_name || name}
         ref={inputRef}
         defaultValue={defaultValue}
         {...rest}

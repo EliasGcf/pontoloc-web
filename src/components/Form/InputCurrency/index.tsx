@@ -8,13 +8,13 @@ import { NumberFormat, LabelContainer } from './styles';
 interface Props extends NumberFormatProps {
   name: string;
   label: string;
-  lable_name?: string;
+  label_name?: string;
 }
 
 const InputCurrency: React.FC<Props> = ({
   name,
   label,
-  lable_name,
+  label_name,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +42,7 @@ const InputCurrency: React.FC<Props> = ({
   }, [fieldName, inputRef, registerField]);
 
   return (
-    <LabelContainer htmlFor={lable_name || name}>
+    <LabelContainer htmlFor={label_name || name}>
       {label}
       <NumberFormat
         getInputRef={inputRef}
@@ -55,8 +55,8 @@ const InputCurrency: React.FC<Props> = ({
         decimalScale={2}
         defaultValue={defaultValue}
         allowNegative={false}
-        name={lable_name || name}
-        id={lable_name || name}
+        name={label_name || name}
+        id={label_name || name}
         {...rest}
       />
       {error && <span>{error}</span>}

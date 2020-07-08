@@ -28,7 +28,7 @@ const InputLabel: React.FC<InputProps> = ({
   }, [fieldName, registerField]);
 
   return (
-    <LabelContainer htmlFor={name} className={className}>
+    <LabelContainer htmlFor={lable_name || name} className={className}>
       {label}
       <input
         name={lable_name || name}

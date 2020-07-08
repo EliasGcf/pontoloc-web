@@ -76,9 +76,8 @@ const ListContracts: React.FC = () => {
   }, [addToast, queryName, queryPage]);
 
   const handleSearchSubmit = useCallback(
-    ({ name }: SearchFormData, { reset }) => {
+    ({ name }: SearchFormData) => {
       setQueryName(name || undefined);
-      reset();
     },
     [setQueryName],
   );
@@ -108,7 +107,7 @@ const ListContracts: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header onSubmit={handleSearchSubmit} disabled={!queryName} />
           <S.MessageContainer>
             <span>Nenhum contrato foi encontrado.</span>
           </S.MessageContainer>

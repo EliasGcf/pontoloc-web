@@ -32,9 +32,8 @@ const ListMaterials: React.FC = () => {
   const { addToast } = useToast();
 
   const handleSearchSubmit = useCallback(
-    ({ name }: SearchFormData, { reset }) => {
+    ({ name }: SearchFormData) => {
       setQueryName(name || undefined);
-      reset();
     },
     [setQueryName],
   );
@@ -96,7 +95,7 @@ const ListMaterials: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header onSubmit={handleSearchSubmit} disabled={!queryName} />
           <S.MessageContainer>
             <span>Nenhum material foi encontrado.</span>
           </S.MessageContainer>

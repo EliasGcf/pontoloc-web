@@ -15,6 +15,7 @@ const InputCurrency: React.FC<Props> = ({
   name,
   label,
   label_name,
+  className,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +43,7 @@ const InputCurrency: React.FC<Props> = ({
   }, [fieldName, inputRef, registerField]);
 
   return (
-    <LabelContainer htmlFor={label_name || name}>
+    <LabelContainer htmlFor={label_name || name} className={className}>
       {label}
       <NumberFormat
         getInputRef={inputRef}

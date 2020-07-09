@@ -7,6 +7,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   label_name?: string;
+  showErro?: 'bottom' | 'border';
 }
 
 const InputLabel: React.FC<InputProps> = ({
@@ -14,6 +15,7 @@ const InputLabel: React.FC<InputProps> = ({
   label,
   label_name = '',
   className,
+  showErro = 'bottom',
   ...rest
 }) => {
   const { fieldName, defaultValue, error, registerField } = useField(name);
@@ -28,7 +30,12 @@ const InputLabel: React.FC<InputProps> = ({
   }, [fieldName, registerField]);
 
   return (
-    <LabelContainer htmlFor={label_name || name} className={className}>
+    <LabelContainer
+      showErro={showErro}
+      hasError={!!error}
+      htmlFor={label_name || name}
+      className={className}
+    >
       {label}
       <input
         name={label_name || name}
@@ -37,7 +44,7 @@ const InputLabel: React.FC<InputProps> = ({
         defaultValue={defaultValue}
         {...rest}
       />
-      {error && <span>{error}</span>}
+      {error && showErro === 'bottom' && <span>{error}</span>}
     </LabelContainer>
   );
 };

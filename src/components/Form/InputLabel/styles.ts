@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const LabelContainer = styled.label`
+interface LabelContainerProp {
+  showErro: 'bottom' | 'border';
+  hasError: boolean;
+}
+
+export const LabelContainer = styled.label<LabelContainerProp>`
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -13,11 +18,18 @@ export const LabelContainer = styled.label`
     background: ${({ theme }) => theme.colors.dark};
     color: ${({ theme }) => theme.colors.white};
     font-size: 18px;
-    border: none;
+    border: ${({ theme }) => `1px solid ${theme.colors.dark}`};
     border-radius: 10px;
     padding: 16px;
     height: 56px;
     width: 100%;
+
+    ${props =>
+      props.hasError &&
+      props.showErro === 'border' &&
+      css`
+        border-color: ${({ theme }) => theme.colors.error};
+      `}
 
     &::placeholder {
       color: ${({ theme }) => theme.colors.grayHard};

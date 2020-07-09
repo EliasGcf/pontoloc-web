@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ onSubmit, disabled = false }) => {
         />
       </S.Form>
 
-      <LinkToCreatePage to="/" />
+      <LinkToCreatePage to="/contracts/register" />
 
       <h1>Aluguéis</h1>
     </S.Header>

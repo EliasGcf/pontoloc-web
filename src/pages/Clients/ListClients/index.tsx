@@ -48,6 +48,7 @@ const ListClients: React.FC = () => {
   useEffect(() => {
     async function loadClients(): Promise<void> {
       try {
+        setLoading(true);
         const response = await api.get<Client[]>('/clients', {
           params: {
             page: queryPage || 1,

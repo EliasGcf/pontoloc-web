@@ -49,6 +49,7 @@ const ListMaterials: React.FC = () => {
   useEffect(() => {
     async function loadMaterials(): Promise<void> {
       try {
+        setLoading(true);
         const response = await api.get<Material[]>('/materials', {
           params: {
             page: queryPage || 1,

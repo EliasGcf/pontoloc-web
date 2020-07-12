@@ -39,6 +39,7 @@ const ListContracts: React.FC = () => {
   useEffect(() => {
     async function loadContracts(): Promise<void> {
       try {
+        setLoading(true);
         const response = await api.get<Contracts[]>('/contracts', {
           params: {
             page: queryPage || 1,

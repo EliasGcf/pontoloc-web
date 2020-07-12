@@ -16,13 +16,19 @@ interface Option {
   label: string;
 }
 
+interface ContractFormData {
+  client_id: string;
+  delivery_price?: string;
+}
+
 interface ContractFormProps {
-  onSubmit(data: any): void;
+  onSubmit(data: ContractFormData): void;
   formRef: React.RefObject<FormHandles>;
 }
 
 const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
   const [clientOptions, setClientOptions] = useState<Option[]>([]);
+  const [optionsIsLoading, setOptionsIsLoading] = useState(true);
   const [clientsPage, setClientsPage] = useState(1);
   const [clientsPagesAvailable, setClientsPagesAvailable] = useState(0);
 
@@ -39,6 +45,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
           value: client.id,
         })),
       );
+      setOptionsIsLoading(false);
     }
 
     loadClientOptions();
@@ -47,6 +54,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
   const handleClientsMenuScrollToBottom = useCallback(async () => {
     if (clientsPage === clientsPagesAvailable) return;
 
+    setOptionsIsLoading(true);
     const response = await api.get<Client[]>('/clients', {
       params: {
         page: clientsPage + 1,
@@ -61,6 +69,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
       })),
     ]);
     setClientsPage(clientsPage + 1);
+    setOptionsIsLoading(false);
   }, [clientsPage, clientsPagesAvailable]);
 
   const handleLoadClientOptions = useCallback(
@@ -71,11 +80,14 @@ const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
 
       if (data.length === 0) {
         // fazer debaunce
+        setOptionsIsLoading(true);
         const response = await api.get<Client[]>('/clients', {
           params: {
             name: inputValue,
           },
         });
+
+        setOptionsIsLoading(false);
 
         callback(
           response.data.map(client => ({
@@ -101,6 +113,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ onSubmit, formRef }) => {
         loadOptions={handleLoadClientOptions}
         onMenuScrollToBottom={handleClientsMenuScrollToBottom}
         noOptionsMessage={() => 'Nenhum cliente encontrado'}
+        isLoading={optionsIsLoading}
       />
       <DeliveryPriceInput name="delivery_price" label="PREÇO DE ENTREGA" />
     </Form>

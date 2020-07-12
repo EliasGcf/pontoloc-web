@@ -85,7 +85,7 @@ const InputAsyncSelect: React.FC<Props> = ({
         ref.select.state.value = value;
       },
       clearValue: (ref: any) => {
-        ref.select.state.value = null;
+        ref.select.select.clearValue();
       },
     });
   }, [fieldName, registerField, rest.isMulti]);

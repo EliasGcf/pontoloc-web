@@ -18,7 +18,7 @@ interface Material {
   quantity: string;
   name: string;
   daily_price: number;
-  daily_price_formatted: string;
+  quantity_daily_price_formatted: string;
 }
 
 interface ContractFormData {
@@ -60,6 +60,7 @@ const CreateContract: React.FC = () => {
 
         const { client_id, delivery_price = 0 } = data;
 
+        setSubmitIsLoading(true);
         await api.post('/contracts', {
           client_id,
           delivery_price: Number(delivery_price),
@@ -68,12 +69,21 @@ const CreateContract: React.FC = () => {
             quantity: material.quantity,
           })),
         });
+
+        contractFormRef.current?.reset();
+        setMaterialsAdded([]);
+        addToast({
+          title: 'Contrato criado com sucesso!',
+          type: 'success',
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
           contractFormRef.current?.setErrors(errors);
         }
+      } finally {
+        setSubmitIsLoading(false);
       }
     },
     [materialsAdded, addToast],

@@ -8,7 +8,7 @@ interface Props {
     quantity: string;
     name: string;
     daily_price: number;
-    daily_price_formatted: string;
+    quantity_daily_price_formatted: string;
   }[];
 }
 
@@ -30,7 +30,7 @@ const MaterialsAddedCard: React.FC<Props> = ({ materials }) => {
               <MaterialRow key={material.id}>
                 <td>{material.name}</td>
                 <td>{material.quantity}</td>
-                <td>{material.daily_price_formatted}</td>
+                <td>{material.quantity_daily_price_formatted}</td>
                 <td>X</td>
               </MaterialRow>
             ))}

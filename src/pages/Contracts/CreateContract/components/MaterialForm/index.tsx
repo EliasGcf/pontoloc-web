@@ -21,7 +21,7 @@ interface Material {
   quantity: string;
   name: string;
   daily_price: number;
-  daily_price_formatted: string;
+  quantity_daily_price_formatted: string;
 }
 
 interface Option {
@@ -43,6 +43,8 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
 
   const [materialsPagesAvailable, setMaterialsPagesAvailable] = useState(0);
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [materialsPage, setMaterialsPage] = useState(1);
+  const [optionsIsLoading, setOptionsIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadMaterials(): Promise<void> {
@@ -52,6 +54,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
 
       setMaterialsPagesAvailable(Math.ceil(materialsTotalCount / 7));
       setMaterials(response.data);
+      setOptionsIsLoading(false);
     }
 
     loadMaterials();
@@ -60,7 +63,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
   const materialOptions = useMemo<Option[]>(() => {
     return materials.map(material => ({
       value: material.id,
-      label: material.name,
+      label: `${material.name} - ${formatPrice(material.daily_price)}`,
     }));
   }, [materials]);
 
@@ -71,11 +74,14 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
       );
 
       if (data.length === 0) {
+        setOptionsIsLoading(true);
         const response = await api.get<Material[]>('/materials', {
           params: {
             name: inputValue,
           },
         });
+
+        setOptionsIsLoading(false);
 
         callback(
           response.data.map(material => ({
@@ -90,6 +96,22 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
     },
     [materialOptions],
   );
+
+  const handleMaterialsMenuScrollToBottom = useCallback(async () => {
+    if (materialsPage === materialsPagesAvailable) return;
+
+    setOptionsIsLoading(true);
+
+    const response = await api.get<Material[]>('/materials', {
+      params: {
+        page: materialsPage + 1,
+      },
+    });
+
+    setMaterials(state => [...state, ...response.data]);
+    setMaterialsPage(materialsPage + 1);
+    setOptionsIsLoading(false);
+  }, [materialsPage, materialsPagesAvailable]);
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
@@ -111,13 +133,14 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
 
         const addedMaterial = {
           ...materialFind,
-          daily_price_formatted: formatPrice(
+          quantity_daily_price_formatted: formatPrice(
             Number(data.quantity) * materialFind.daily_price,
           ),
           quantity,
         } as Material;
 
         addMaterial(state => [...state, addedMaterial]);
+        formRef.current?.reset();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -138,6 +161,8 @@ const MaterialForm: React.FC<MaterialFormProps> = ({ addMaterial }) => {
         noOptionsMessage={() => 'Nenhum material encontrado'}
         defaultOptions={materialOptions}
         loadOptions={handleLoadMaterialsOptions}
+        onMenuScrollToBottom={handleMaterialsMenuScrollToBottom}
+        isLoading={optionsIsLoading}
       />
       <QuantityInput
         name="quantity"

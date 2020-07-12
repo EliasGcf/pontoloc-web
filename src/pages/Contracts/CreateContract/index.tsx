@@ -38,6 +38,10 @@ const CreateContract: React.FC = () => {
     contractFormRef.current?.submitForm();
   }, []);
 
+  const handleRemoveMaterial = useCallback((id: string) => {
+    setMaterialsAdded(state => state.filter(material => material.id !== id));
+  }, []);
+
   const handleSubmit = useCallback(
     async (data: ContractFormData) => {
       try {
@@ -108,7 +112,10 @@ const CreateContract: React.FC = () => {
         <ContractForm onSubmit={handleSubmit} formRef={contractFormRef} />
 
         {materialsAdded.length !== 0 && (
-          <MaterialsAddedCard materials={materialsAdded} />
+          <MaterialsAddedCard
+            materials={materialsAdded}
+            onClickRemoveButton={handleRemoveMaterial}
+          />
         )}
 
         <MaterialForm addMaterial={setMaterialsAdded} />

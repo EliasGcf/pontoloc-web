@@ -65,3 +65,18 @@ export const MaterialRow = styled.tr`
   background: ${({ theme }) => theme.colors.dark};
   font-size: 18px;
 `;
+
+export const RemoveButton = styled.button`
+  background: none;
+  border: none;
+
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    color: ${({ theme }) => theme.colors.error};
+  }
+`;

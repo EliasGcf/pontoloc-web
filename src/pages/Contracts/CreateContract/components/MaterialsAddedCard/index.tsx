@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Container, Content, Table, MaterialRow } from './styles';
+import { FiX } from 'react-icons/fi';
+import { Container, Content, Table, MaterialRow, RemoveButton } from './styles';
 
 interface Props {
   materials: {
@@ -10,9 +11,13 @@ interface Props {
     daily_price: number;
     quantity_daily_price_formatted: string;
   }[];
+  onClickRemoveButton(id: string): void;
 }
 
-const MaterialsAddedCard: React.FC<Props> = ({ materials }) => {
+const MaterialsAddedCard: React.FC<Props> = ({
+  materials,
+  onClickRemoveButton,
+}) => {
   return (
     <Container>
       <span>MATERIAIS ADICIONADOS</span>
@@ -31,7 +36,13 @@ const MaterialsAddedCard: React.FC<Props> = ({ materials }) => {
                 <td>{material.name}</td>
                 <td>{material.quantity}</td>
                 <td>{material.quantity_daily_price_formatted}</td>
-                <td>X</td>
+                <td>
+                  <RemoveButton
+                    onClick={() => onClickRemoveButton(material.id)}
+                  >
+                    <FiX size={20} />
+                  </RemoveButton>
+                </td>
               </MaterialRow>
             ))}
           </tbody>

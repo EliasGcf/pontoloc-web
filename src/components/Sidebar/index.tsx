@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect, memo } from 'react';
-import { FiX, FiTruck, FiUsers, FiMenu } from 'react-icons/fi';
+import { FiX, FiTruck, FiUsers, FiMenu, FiLogOut } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
 import toolSvg from '../../assets/tool.svg';
 
-import { Container } from './styles';
+import { Container, SignOutButton } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 const Sidebar: React.FC = () => {
   const [isOpened, setIsOpened] = useState(() => {
@@ -29,6 +30,8 @@ const Sidebar: React.FC = () => {
     }
   }, [isOpened]);
 
+  const { signOut } = useAuth();
+
   return (
     <Container isOpened={!!isOpened}>
       <div>
@@ -50,6 +53,10 @@ const Sidebar: React.FC = () => {
           <img src={toolSvg} alt="tool" />
         </NavLink>
       </nav>
+      <SignOutButton onClick={signOut}>
+        {isOpened && <strong>Sair</strong>}
+        <FiLogOut size={24} />
+      </SignOutButton>
     </Container>
   );
 };

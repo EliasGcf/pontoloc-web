@@ -2,25 +2,26 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
 
-interface IAuthState {
+interface AuthState {
   token: string;
   user: object;
 }
 
-interface ISignInCredentials {
+interface SignInCredentials {
   email: string;
   password: string;
 }
 
-interface IAuthContextData {
+interface AuthContextData {
   user: object;
-  signIn(credential: ISignInCredentials): Promise<void>;
+  signIn(credential: SignInCredentials): Promise<void>;
+  signOut(): void;
 }
 
-const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<IAuthState>(() => {
+  const [data, setData] = useState<AuthState>(() => {
     const token = sessionStorage.getItem('@PontoLoc:token');
     const user = sessionStorage.getItem('@PontoLoc:user');
 
@@ -29,34 +30,38 @@ const AuthProvider: React.FC = ({ children }) => {
       return { token, user: JSON.parse(user) };
     }
 
-    return {} as IAuthState;
+    return {} as AuthState;
   });
   // const [data, setData] = useState<IAuthState>({} as IAuthState);
 
-  const signIn = useCallback(
-    async ({ email, password }: ISignInCredentials) => {
-      const response = await api.post('sessions', { email, password });
+  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
+    const response = await api.post('sessions', { email, password });
 
-      const { token, user } = response.data;
+    const { token, user } = response.data;
 
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+    api.defaults.headers.Authorization = `Bearer ${token}`;
 
-      sessionStorage.setItem('@PontoLoc:token', token);
-      sessionStorage.setItem('@PontoLoc:user', JSON.stringify(user));
+    sessionStorage.setItem('@PontoLoc:token', token);
+    sessionStorage.setItem('@PontoLoc:user', JSON.stringify(user));
 
-      setData({ token, user });
-    },
-    [],
-  );
+    setData({ token, user });
+  }, []);
+
+  const signOut = useCallback(() => {
+    localStorage.removeItem('@PontoLoc:token');
+    localStorage.removeItem('@PontoLoc:user');
+
+    setData({} as AuthState);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-function useAuth(): IAuthContextData {
+function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
   if (!context) {

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { lighten } from 'polished';
 
 interface ContainerProps {
   isOpened: boolean;
@@ -10,6 +11,9 @@ export const Container = styled.div<ContainerProps>`
   height: 100vh;
   background: ${({ theme }) => theme.colors.shape};
   transition: max-width 500ms ease;
+
+  display: flex;
+  flex-direction: column;
 
   > div {
     width: 100%;
@@ -79,5 +83,30 @@ export const Container = styled.div<ContainerProps>`
         background: ${({ theme }) => theme.colors.background};
       }
     }
+  }
+`;
+
+export const SignOutButton = styled.button`
+  margin-top: auto;
+  margin-bottom: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  border: none;
+
+  color: ${({ theme }) => theme.colors.error};
+
+  strong {
+    font-size: 20px;
+    margin-right: 16px;
+  }
+
+  transition: color 0.3s;
+
+  &:hover {
+    color: ${({ theme }) => lighten(0.06, theme.colors.error)};
   }
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { NumberParam, useQueryParam, StringParam } from 'use-query-params';
+import { useHistory } from 'react-router-dom';
 
 import ChangePageButton from '../../../components/ChangePageButton';
 import api from '../../../services/api';
@@ -29,6 +30,7 @@ const ListClients: React.FC = () => {
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
 
   const { addToast } = useToast();
+  const history = useHistory();
 
   const handleSearchSubmit = useCallback(
     ({ name }: SearchFormData) => {
@@ -114,7 +116,10 @@ const ListClients: React.FC = () => {
           </thead>
           <tbody>
             {clients.map(client => (
-              <S.ClientRow key={client.id}>
+              <S.ClientRow
+                onClick={() => history.push(`/clients/edit/${client.id}`)}
+                key={client.id}
+              >
                 <td>{client.name}</td>
                 <td>{client.cpf}</td>
                 <td>{client.phone_number}</td>

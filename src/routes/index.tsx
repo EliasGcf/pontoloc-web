@@ -8,6 +8,7 @@ import CreateContract from '../pages/Contracts/CreateContract';
 
 import ListClients from '../pages/Clients/ListClients';
 import CreateClient from '../pages/Clients/CreateClient';
+import EditClient from '../pages/Clients/EditClient';
 
 import ListMaterials from '../pages/Materials/ListMaterials';
 import CreateMaterial from '../pages/Materials/CreateMaterial';
@@ -24,6 +25,7 @@ const Routes: React.FC = () => {
 
       <Route path="/clients" exact component={ListClients} isPrivate />
       <Route path="/clients/register" component={CreateClient} isPrivate />
+      <Route path="/clients/edit/:id" component={EditClient} isPrivate />
 
       <Route path="/materials" exact component={ListMaterials} isPrivate />
       <Route path="/materials/register" component={CreateMaterial} isPrivate />

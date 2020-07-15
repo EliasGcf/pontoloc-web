@@ -5,3 +5,4 @@ export { default as RegisterButton } from './RegisterButton';
 export { default as InputLabel } from './InputLabel';
 export { default as InputCurrency } from './InputCurrency';
 export { default as InputAsyncSelect } from './InputAsyncSelect';
+export { default as SaveButton } from './SaveButton';

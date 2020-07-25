@@ -7,7 +7,7 @@ import { formatPrice } from '../../../utils/format';
 import { useToast } from '../../../hooks/toast';
 import ChangePageButton from '../../../components/ChangePageButton';
 
-import Header from './components/Header';
+import Header from '../../../components/Header';
 
 import * as S from './styles';
 
@@ -95,7 +95,12 @@ const ListContracts: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled
+            createPage="/contracts/register"
+            title="Aluguéis"
+          />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>
@@ -108,7 +113,12 @@ const ListContracts: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled={!queryName} />
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled={!queryName}
+            createPage="/contracts/register"
+            title="Aluguéis"
+          />
           <S.MessageContainer>
             <span>Nenhum contrato foi encontrado.</span>
           </S.MessageContainer>
@@ -120,7 +130,11 @@ const ListContracts: React.FC = () => {
   return (
     <S.Container>
       <S.Content>
-        <Header onSubmit={handleSearchSubmit} />
+        <Header
+          onSubmit={handleSearchSubmit}
+          createPage="/contracts/register"
+          title="Aluguéis"
+        />
 
         <S.Table>
           <thead>

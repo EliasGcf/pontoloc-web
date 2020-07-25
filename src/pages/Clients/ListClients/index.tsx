@@ -3,11 +3,11 @@ import { Ring } from 'react-awesome-spinners';
 import { NumberParam, useQueryParam, StringParam } from 'use-query-params';
 import { useHistory } from 'react-router-dom';
 
+import Header from '../../../components/Header';
 import ChangePageButton from '../../../components/ChangePageButton';
+
 import api from '../../../services/api';
 import { useToast } from '../../../hooks/toast';
-
-import Header from './components/Header';
 
 import * as S from './styles';
 
@@ -34,9 +34,10 @@ const ListClients: React.FC = () => {
 
   const handleSearchSubmit = useCallback(
     ({ name }: SearchFormData) => {
+      setQueryPage(1);
       setQueryName(name || undefined);
     },
-    [setQueryName],
+    [setQueryName, setQueryPage],
   );
 
   const incrementPage = useCallback(() => {
@@ -79,7 +80,13 @@ const ListClients: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header
+            clientName={queryName}
+            onSubmit={handleSearchSubmit}
+            disabled
+            createPage="/clients/register"
+            title="Clientes"
+          />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>
@@ -92,7 +99,12 @@ const ListClients: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled={!queryName} />
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled={!queryName}
+            createPage="/clients/register"
+            title="Clientes"
+          />
           <S.MessageContainer>
             <span>Nenhum cliente foi encontrado.</span>
           </S.MessageContainer>
@@ -104,7 +116,12 @@ const ListClients: React.FC = () => {
   return (
     <S.Container>
       <S.Content>
-        <Header onSubmit={handleSearchSubmit} />
+        <Header
+          clientName={queryName}
+          onSubmit={handleSearchSubmit}
+          createPage="/clients/register"
+          title="Clientes"
+        />
 
         <S.Table>
           <thead>

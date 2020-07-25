@@ -5,9 +5,9 @@ import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
 import api from '../../../services/api';
 import { formatPrice } from '../../../utils/format';
 import { useToast } from '../../../hooks/toast';
-import ChangePageButton from '../../../components/ChangePageButton';
 
-import Header from './components/Header';
+import Header from '../../../components/Header';
+import ChangePageButton from '../../../components/ChangePageButton';
 
 import * as S from './styles';
 
@@ -83,7 +83,12 @@ const ListMaterials: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled />
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled
+            createPage="/materials/register"
+            title="Materiais"
+          />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>
@@ -96,7 +101,12 @@ const ListMaterials: React.FC = () => {
     return (
       <S.Container>
         <S.Content>
-          <Header onSubmit={handleSearchSubmit} disabled={!queryName} />
+          <Header
+            onSubmit={handleSearchSubmit}
+            disabled={!queryName}
+            createPage="/materials/register"
+            title="Materiais"
+          />
           <S.MessageContainer>
             <span>Nenhum material foi encontrado.</span>
           </S.MessageContainer>
@@ -108,7 +118,11 @@ const ListMaterials: React.FC = () => {
   return (
     <S.Container>
       <S.Content>
-        <Header onSubmit={handleSearchSubmit} />
+        <Header
+          onSubmit={handleSearchSubmit}
+          createPage="/materials/register"
+          title="Materiais"
+        />
 
         <S.Table>
           <thead>

@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
 
 import { FiSearch } from 'react-icons/fi';
-import { UInput } from '../../../../../components/Form';
-import SearchButton from '../../../../../components/SearchButton';
-import LinkToCreatePage from '../../../../../components/LinkToCreatePage';
+import { FormHelpers } from '@unform/core';
+import { UInput } from '../Form';
+import SearchButton from '../SearchButton';
+import LinkToCreatePage from '../LinkToCreatePage';
 
 import * as S from './styles';
 
@@ -11,19 +12,24 @@ interface SearchFormData {
   name: string;
 }
 
-interface SubmitData {
-  reset(): void;
-}
-
 interface HeaderProps {
-  onSubmit(data: SearchFormData, options?: SubmitData): void;
+  onSubmit(data: SearchFormData, options?: FormHelpers): void;
   disabled?: boolean;
+  clientName?: string | null;
+  createPage: string;
+  title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSubmit, disabled = false }) => {
+const Header: React.FC<HeaderProps> = ({
+  clientName,
+  onSubmit,
+  disabled = false,
+  createPage,
+  title,
+}) => {
   return (
     <S.Header>
-      <S.Form onSubmit={onSubmit}>
+      <S.Form initialData={{ name: clientName }} onSubmit={onSubmit}>
         <UInput
           placeholder="Buscar"
           icon={FiSearch}
@@ -37,9 +43,9 @@ const Header: React.FC<HeaderProps> = ({ onSubmit, disabled = false }) => {
         />
       </S.Form>
 
-      <LinkToCreatePage to="/clients/register" />
+      <LinkToCreatePage to={createPage} />
 
-      <h1>Clientes</h1>
+      <h1>{title}</h1>
     </S.Header>
   );
 };

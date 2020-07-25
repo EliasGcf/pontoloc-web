@@ -47,7 +47,7 @@
 
 This is a ReactJS web client that will be used by the company manager!
 
-With this client, it's possible to control the entire flow of this company, from creating customers register to finalizing contracts.
+With this web client, it's possible to control the entire flow of this company, from creating customers register to finalizing contracts.
 
 ### Features
 

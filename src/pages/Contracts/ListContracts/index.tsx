@@ -36,6 +36,22 @@ const ListContracts: React.FC = () => {
 
   const { addToast } = useToast();
 
+  const handleSearchSubmit = useCallback(
+    ({ name }: SearchFormData) => {
+      setQueryPage(1);
+      setQueryName(name || undefined);
+    },
+    [setQueryName, setQueryPage],
+  );
+
+  const incrementPage = useCallback(async () => {
+    setQueryPage(state => (state || 1) + 1);
+  }, [setQueryPage]);
+
+  const decrementPage = useCallback(async () => {
+    setQueryPage(state => (state || 2) - 1);
+  }, [setQueryPage]);
+
   useEffect(() => {
     async function loadContracts(): Promise<void> {
       try {
@@ -75,22 +91,6 @@ const ListContracts: React.FC = () => {
 
     loadContracts();
   }, [addToast, queryName, queryPage]);
-
-  const handleSearchSubmit = useCallback(
-    ({ name }: SearchFormData) => {
-      setQueryPage(1);
-      setQueryName(name || undefined);
-    },
-    [setQueryName, setQueryPage],
-  );
-
-  const incrementPage = useCallback(async () => {
-    setQueryPage(state => (state || 1) + 1);
-  }, [setQueryPage]);
-
-  const decrementPage = useCallback(async () => {
-    setQueryPage(state => (state || 2) - 1);
-  }, [setQueryPage]);
 
   if (loading) {
     return (

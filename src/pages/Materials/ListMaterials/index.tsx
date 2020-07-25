@@ -33,9 +33,10 @@ const ListMaterials: React.FC = () => {
 
   const handleSearchSubmit = useCallback(
     ({ name }: SearchFormData) => {
+      setQueryPage(1);
       setQueryName(name || undefined);
     },
-    [setQueryName],
+    [setQueryName, setQueryPage],
   );
 
   const incrementPage = useCallback(() => {

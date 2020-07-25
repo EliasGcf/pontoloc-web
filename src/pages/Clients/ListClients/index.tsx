@@ -86,6 +86,7 @@ const ListClients: React.FC = () => {
             disabled
             createPage="/clients/register"
             title="Clientes"
+            placeholder="Digite o nome do cliente"
           />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
@@ -104,6 +105,7 @@ const ListClients: React.FC = () => {
             disabled={!queryName}
             createPage="/clients/register"
             title="Clientes"
+            placeholder="Digite o nome do cliente"
           />
           <S.MessageContainer>
             <span>Nenhum cliente foi encontrado.</span>
@@ -121,6 +123,7 @@ const ListClients: React.FC = () => {
           onSubmit={handleSearchSubmit}
           createPage="/clients/register"
           title="Clientes"
+          placeholder="Digite o nome do cliente"
         />
 
         <S.Table>

@@ -101,6 +101,7 @@ const ListContracts: React.FC = () => {
             disabled
             createPage="/contracts/register"
             title="Aluguéis"
+            placeholder="Digite o nome do cliente"
           />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
@@ -119,6 +120,7 @@ const ListContracts: React.FC = () => {
             disabled={!queryName}
             createPage="/contracts/register"
             title="Aluguéis"
+            placeholder="Digite o nome do cliente"
           />
           <S.MessageContainer>
             <span>Nenhum contrato foi encontrado.</span>
@@ -135,6 +137,7 @@ const ListContracts: React.FC = () => {
           onSubmit={handleSearchSubmit}
           createPage="/contracts/register"
           title="Aluguéis"
+          placeholder="Digite o nome do cliente"
         />
 
         <S.Table>

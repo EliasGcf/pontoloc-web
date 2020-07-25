@@ -1,8 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useCallback } from 'react';
 
-import { FiSearch } from 'react-icons/fi';
-import { FormHelpers } from '@unform/core';
-import { UInput } from '../Form';
+import { FormHelpers, FormHandles } from '@unform/core';
+import { InputSearch } from '../Form';
 import SearchButton from '../SearchButton';
 import LinkToCreatePage from '../LinkToCreatePage';
 
@@ -18,6 +17,7 @@ interface HeaderProps {
   clientName?: string | null;
   createPage: string;
   title: string;
+  placeholder?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -26,15 +26,27 @@ const Header: React.FC<HeaderProps> = ({
   disabled = false,
   createPage,
   title,
+  placeholder,
 }) => {
+  const formRef = useRef<FormHandles>(null);
+
+  const clearValue = useCallback(() => {
+    formRef.current?.reset();
+    onSubmit({ name: '' });
+  }, [onSubmit]);
+
   return (
     <S.Header>
-      <S.Form initialData={{ name: clientName }} onSubmit={onSubmit}>
-        <UInput
-          placeholder="Buscar"
-          icon={FiSearch}
+      <S.Form
+        ref={formRef}
+        initialData={{ name: clientName }}
+        onSubmit={onSubmit}
+      >
+        <InputSearch
+          placeholder={placeholder}
           name="name"
           disabled={disabled}
+          clearValue={clearValue}
         />
         <SearchButton
           type="submit"

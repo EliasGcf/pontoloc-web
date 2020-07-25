@@ -89,6 +89,7 @@ const ListMaterials: React.FC = () => {
             disabled
             createPage="/materials/register"
             title="Materiais"
+            placeholder="Digite o nome do material"
           />
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
@@ -107,6 +108,7 @@ const ListMaterials: React.FC = () => {
             disabled={!queryName}
             createPage="/materials/register"
             title="Materiais"
+            placeholder="Digite o nome do material"
           />
           <S.MessageContainer>
             <span>Nenhum material foi encontrado.</span>
@@ -123,6 +125,7 @@ const ListMaterials: React.FC = () => {
           onSubmit={handleSearchSubmit}
           createPage="/materials/register"
           title="Materiais"
+          placeholder="Digite o nome do material"
         />
 
         <S.Table>

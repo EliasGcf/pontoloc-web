@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import { formatPrice } from '../../../utils/format';
@@ -29,6 +30,7 @@ const ListMaterials: React.FC = () => {
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
 
+  const history = useHistory();
   const { addToast } = useToast();
 
   const handleSearchSubmit = useCallback(
@@ -137,7 +139,10 @@ const ListMaterials: React.FC = () => {
           </thead>
           <tbody>
             {materials.map(material => (
-              <S.MaterialRow key={material.id}>
+              <S.MaterialRow
+                key={material.id}
+                onClick={() => history.push(`/materials/edit/${material.id}`)}
+              >
                 <td>{material.name}</td>
                 <td>{material.formatted_price}</td>
               </S.MaterialRow>

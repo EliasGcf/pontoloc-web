@@ -12,6 +12,7 @@ import EditClient from '../pages/Clients/EditClient';
 
 import ListMaterials from '../pages/Materials/ListMaterials';
 import CreateMaterial from '../pages/Materials/CreateMaterial';
+import EditMaterial from '../pages/Materials/EditMaterial';
 
 import Route from './Route';
 
@@ -29,6 +30,7 @@ const Routes: React.FC = () => {
 
       <Route path="/materials" exact component={ListMaterials} isPrivate />
       <Route path="/materials/register" component={CreateMaterial} isPrivate />
+      <Route path="/materials/edit/:id" component={EditMaterial} isPrivate />
     </Switch>
   );
 };

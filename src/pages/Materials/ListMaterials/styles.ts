@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
@@ -75,6 +76,13 @@ export const MaterialRow = styled.tr`
 
   background: ${({ theme }) => theme.colors.shape};
   font-size: 16px;
+
+  transition: background 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background: ${({ theme }) => shade(0.4, theme.colors.shape)};
+  }
 `;
 
 export const Pagination = styled.div`

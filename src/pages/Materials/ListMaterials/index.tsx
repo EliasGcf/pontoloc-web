@@ -87,6 +87,7 @@ const ListMaterials: React.FC = () => {
       <S.Container>
         <S.Content>
           <Header
+            initialName={queryName}
             onSubmit={handleSearchSubmit}
             disabled
             createPage="/materials/register"
@@ -124,6 +125,7 @@ const ListMaterials: React.FC = () => {
     <S.Container>
       <S.Content>
         <Header
+          initialName={queryName}
           onSubmit={handleSearchSubmit}
           createPage="/materials/register"
           title="Materiais"

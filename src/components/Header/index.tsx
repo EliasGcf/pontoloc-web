@@ -14,14 +14,14 @@ interface SearchFormData {
 interface HeaderProps {
   onSubmit(data: SearchFormData, options?: FormHelpers): void;
   disabled?: boolean;
-  clientName?: string | null;
+  initialName?: string | null;
   createPage: string;
   title: string;
   placeholder?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
-  clientName,
+  initialName,
   onSubmit,
   disabled = false,
   createPage,
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
     <S.Header>
       <S.Form
         ref={formRef}
-        initialData={{ name: clientName }}
+        initialData={{ name: initialName }}
         onSubmit={onSubmit}
       >
         <InputSearch

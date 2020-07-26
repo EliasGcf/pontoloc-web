@@ -81,7 +81,7 @@ const ListClients: React.FC = () => {
       <S.Container>
         <S.Content>
           <Header
-            clientName={queryName}
+            initialName={queryName}
             onSubmit={handleSearchSubmit}
             disabled
             createPage="/clients/register"
@@ -119,7 +119,7 @@ const ListClients: React.FC = () => {
     <S.Container>
       <S.Content>
         <Header
-          clientName={queryName}
+          initialName={queryName}
           onSubmit={handleSearchSubmit}
           createPage="/clients/register"
           title="Clientes"

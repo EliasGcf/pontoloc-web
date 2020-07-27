@@ -2,16 +2,16 @@ import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
+import api from '../../../services/api';
+
 import {
   BackButton,
   RegisterButton,
   InputLabel,
   InputCurrency,
 } from '../../../components/Form';
-
 import { useToast } from '../../../hooks/toast';
 import getValidationErrors from '../../../utils/getValidationErrors';
-import api from '../../../services/api';
 
 import { Container, Content, Form } from './styles';
 

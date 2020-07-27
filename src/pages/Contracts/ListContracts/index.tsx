@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
+
 import { formatPrice } from '../../../utils/format';
 import { useToast } from '../../../hooks/toast';
 import ChangePageButton from '../../../components/ChangePageButton';
-
 import Header from '../../../components/Header';
 
 import * as S from './styles';
@@ -34,6 +35,7 @@ const ListContracts: React.FC = () => {
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
 
+  const history = useHistory();
   const { addToast } = useToast();
 
   const handleSearchSubmit = useCallback(
@@ -97,6 +99,7 @@ const ListContracts: React.FC = () => {
       <S.Container>
         <S.Content>
           <Header
+            initialName={queryName}
             onSubmit={handleSearchSubmit}
             disabled
             createPage="/contracts/register"
@@ -134,6 +137,7 @@ const ListContracts: React.FC = () => {
     <S.Container>
       <S.Content>
         <Header
+          initialName={queryName}
           onSubmit={handleSearchSubmit}
           createPage="/contracts/register"
           title="Aluguéis"
@@ -151,7 +155,12 @@ const ListContracts: React.FC = () => {
           </thead>
           <tbody>
             {contracts.map(contract => (
-              <S.ClientRow key={contract.id}>
+              <S.ClientRow
+                key={contract.id}
+                onClick={() => {
+                  history.push(`/contracts/details/${contract.id}`);
+                }}
+              >
                 <td>{contract.number}</td>
                 <td>{contract.client.name}</td>
                 <td>{contract.formatted_created_at}</td>

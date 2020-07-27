@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 
 import { useAuth } from '../hooks/auth';
-
 import DefaultLayout from '../pages/_layouts/default';
 
 interface IRouteProps extends ReactDOMRouteProps {

@@ -3,11 +3,10 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { useParams, useHistory } from 'react-router-dom';
 
-import getValidationErrors from '../../../utils/getValidationErrors';
-
-import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 
+import getValidationErrors from '../../../utils/getValidationErrors';
+import { useToast } from '../../../hooks/toast';
 import {
   InputLabel,
   InputMask,

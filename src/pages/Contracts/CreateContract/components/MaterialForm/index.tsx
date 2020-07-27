@@ -7,14 +7,15 @@ import React, {
 } from 'react';
 import * as Yup from 'yup';
 import { FiPlus } from 'react-icons/fi';
-
 import { FormHandles } from '@unform/core';
-import { InputAsyncSelect } from '../../../../../components/Form';
+
 import api from '../../../../../services/api';
 
-import { MaterialsForm, QuantityInput, AddButton } from './styles';
+import { InputAsyncSelect } from '../../../../../components/Form';
 import getValidationErrors from '../../../../../utils/getValidationErrors';
 import { formatPrice } from '../../../../../utils/format';
+
+import { MaterialsForm, QuantityInput, AddButton } from './styles';
 
 interface Material {
   id: string;

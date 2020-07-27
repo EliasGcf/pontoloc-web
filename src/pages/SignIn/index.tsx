@@ -9,7 +9,6 @@ import logoImg from '../../assets/logo.png';
 
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
-
 import { UInput } from '../../components/Form';
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -74,12 +73,14 @@ const SignIn: React.FC = () => {
           placeholder="E-mail"
           type="email"
           autoFocus
+          disabled={isLoading}
         />
         <UInput
           icon={FiLock}
           name="password"
           placeholder="Senha"
           type="password"
+          disabled={isLoading}
         />
         <SubmitButton disabled={isLoading} type="submit">
           {isLoading ? 'Carregando...' : 'Entrar'}

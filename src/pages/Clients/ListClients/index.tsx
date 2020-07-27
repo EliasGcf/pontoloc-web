@@ -3,10 +3,10 @@ import { Ring } from 'react-awesome-spinners';
 import { NumberParam, useQueryParam, StringParam } from 'use-query-params';
 import { useHistory } from 'react-router-dom';
 
+import api from '../../../services/api';
+
 import Header from '../../../components/Header';
 import ChangePageButton from '../../../components/ChangePageButton';
-
-import api from '../../../services/api';
 import { useToast } from '../../../hooks/toast';
 
 import * as S from './styles';

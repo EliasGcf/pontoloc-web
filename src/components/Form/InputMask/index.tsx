@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { Props as InputProps } from 'react-input-mask';
-
 import { useField } from '@unform/core';
 
 import { ReactInputMask, Error } from './styles';

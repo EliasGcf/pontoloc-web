@@ -4,8 +4,9 @@ import { NavLink } from 'react-router-dom';
 
 import toolSvg from '../../assets/tool.svg';
 
-import { Container, SignOutButton } from './styles';
 import { useAuth } from '../../hooks/auth';
+
+import { Container, SignOutButton } from './styles';
 
 const Sidebar: React.FC = () => {
   const [isOpened, setIsOpened] = useState(() => {

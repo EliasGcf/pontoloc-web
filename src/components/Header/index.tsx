@@ -1,6 +1,6 @@
 import React, { memo, useRef, useCallback } from 'react';
-
 import { FormHelpers, FormHandles } from '@unform/core';
+
 import { InputSearch } from '../Form';
 import SearchButton from '../SearchButton';
 import LinkToCreatePage from '../LinkToCreatePage';

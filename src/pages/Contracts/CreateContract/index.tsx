@@ -2,16 +2,16 @@ import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
+import api from '../../../services/api';
+
 import { BackButton, RegisterButton } from '../../../components/Form';
 import { useToast } from '../../../hooks/toast';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
 import ContractForm from './components/ContractForm';
 import MaterialForm from './components/MaterialForm';
 import MaterialsAddedCard from './components/MaterialsAddedCard';
-
 import { Container, Content } from './styles';
-import getValidationErrors from '../../../utils/getValidationErrors';
-import api from '../../../services/api';
 
 interface Material {
   id: string;

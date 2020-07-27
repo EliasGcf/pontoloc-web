@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FormHandles } from '@unform/core';
 
-import { InputAsyncSelect } from '../../../../../components/Form';
 import api from '../../../../../services/api';
+
+import { InputAsyncSelect } from '../../../../../components/Form';
 
 import { Form, DeliveryPriceInput } from './styles';
 

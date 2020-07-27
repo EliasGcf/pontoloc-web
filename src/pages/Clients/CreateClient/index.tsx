@@ -2,10 +2,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
-import getValidationErrors from '../../../utils/getValidationErrors';
-
-import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
+
+import getValidationErrors from '../../../utils/getValidationErrors';
+import { useToast } from '../../../hooks/toast';
 import {
   InputLabel,
   InputMask,

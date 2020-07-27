@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Wrapper } from './styles';
-
 import Sidebar from '../../../components/Sidebar';
+
+import { Wrapper } from './styles';
 
 const DefaultLayout: React.FC = ({ children }) => {
   return (

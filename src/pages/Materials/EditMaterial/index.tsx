@@ -3,16 +3,16 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { useParams, useHistory } from 'react-router-dom';
 
+import api from '../../../services/api';
+
 import {
   BackButton,
   SaveButton,
   InputLabel,
   InputCurrency,
 } from '../../../components/Form';
-
 import { useToast } from '../../../hooks/toast';
 import getValidationErrors from '../../../utils/getValidationErrors';
-import api from '../../../services/api';
 
 import { Container, Content, Form } from './styles';
 

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { useField } from '@unform/core';
-
 import { NumberFormatProps } from 'react-number-format';
 
 import { NumberFormat, LabelContainer } from './styles';

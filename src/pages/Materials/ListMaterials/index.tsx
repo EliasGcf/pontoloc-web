@@ -4,9 +4,9 @@ import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
+
 import { formatPrice } from '../../../utils/format';
 import { useToast } from '../../../hooks/toast';
-
 import Header from '../../../components/Header';
 import ChangePageButton from '../../../components/ChangePageButton';
 

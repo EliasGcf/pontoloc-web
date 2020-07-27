@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
-
 import { useHistory } from 'react-router-dom';
+
 import api from '../../../services/api';
+
 import { formatPrice } from '../../../utils/format';
 import { useToast } from '../../../hooks/toast';
 import ChangePageButton from '../../../components/ChangePageButton';
-
 import Header from '../../../components/Header';
 
 import * as S from './styles';

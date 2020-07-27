@@ -26,7 +26,8 @@
     "react",
     "react-hooks",
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "import-helpers"
   ],
   "rules": {
     "prettier/prettier": "error",
@@ -40,11 +41,21 @@
     "react-hooks/exhaustive-deps": "warn",
     "no-unused-expressions": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-    "import/extensions": [
-      "error", "ignorePackages", { "ts": "never", "tsx": "never" }
-    ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error", { "allowExpressions": true }
+    "import/extensions": ["error", "ignorePackages", { "ts": "never", "tsx": "never" }],
+    "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          ["/^react/", "module"],
+          "/assets/",
+          "/services/",
+          ["parent", "index"],
+          "sibling"
+        ],
+        "alphabetize": { "ignoreCase": true }
+      }
     ]
   },
   "settings": {

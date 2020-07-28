@@ -1,13 +1,16 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Ring } from 'react-awesome-spinners';
 import { useParams } from 'react-router-dom';
 import { useTheme } from 'styled-components';
+import { FormHandles } from '@unform/core';
 
 import api from '../../../services/api';
 
 import { BackButton, InputCurrency } from '../../../components/Form';
 import { formatPrice } from '../../../utils/format';
 import FinishContractButton from '../../../components/FinishContractButton';
+import contractFinalPrice from '../../../utils/contractFinalPrice';
+import { useToast } from '../../../hooks/toast';
 
 import {
   Container,
@@ -37,7 +40,7 @@ interface ContractData {
   final_price: number;
   collect_at: Date | null;
 
-  created_at: Date;
+  created_at: string;
   created_at_formatted: string;
 
   client: {
@@ -69,9 +72,24 @@ interface FormData {
 }
 
 const DetailsContract: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const [isLoading, setIsLoading] = useState(true);
-  const [contract, setContract] = useState<ContractData>({} as ContractData);
+  const [contract, setContract] = useState<ContractData | null>(null);
   const [showForm, setShowForm] = useState(false);
+
+  const { addToast } = useToast();
+
+  const handleCollectPriceChange = useCallback(() => {
+    const finalPrice = contractFinalPrice({
+      collect_price: formRef.current?.getFieldValue('collect_price'),
+      created_at: contract?.created_at || '',
+      daily_total_price: contract?.daily_total_price || 0,
+      delivery_price: contract?.delivery_price || 0,
+    });
+
+    formRef.current?.setFieldValue('final_price', finalPrice);
+  }, [contract]);
 
   const theme = useTheme();
   const { id } = useParams();
@@ -93,35 +111,47 @@ const DetailsContract: React.FC = () => {
 
   useEffect(() => {
     async function loadContract(): Promise<void> {
-      const response = await api.get<ContractData>(`/contracts/${id}`);
-      const { data } = response;
+      try {
+        const response = await api.get<ContractData>(`/contracts/${id}`);
+        const { data } = response;
 
-      const createdAtDate = new Date(data.created_at);
-      const dateFormated = createdAtDate.toLocaleDateString('pt-BR');
-      const timeFormated = createdAtDate.toLocaleTimeString('pt-BR');
-      const created_at_formatted = `${dateFormated} às ${timeFormated}`;
+        const createdAtDate = new Date(data.created_at);
+        const dateFormated = createdAtDate.toLocaleDateString('pt-BR');
+        const timeFormated = createdAtDate.toLocaleTimeString('pt-BR');
+        const created_at_formatted = `${dateFormated} às ${timeFormated}`;
 
-      const contract_items = data.contract_items.map(item => ({
-        ...item,
-        price_quantity_daily_formatted: formatPrice(item.price_quantity_daily),
-        material: {
-          ...item.material,
-          daily_price_formatted: formatPrice(item.material.daily_price),
-        },
-      }));
+        const contract_items = data.contract_items.map(item => ({
+          ...item,
+          price_quantity_daily_formatted: formatPrice(
+            item.price_quantity_daily,
+          ),
+          material: {
+            ...item.material,
+            daily_price_formatted: formatPrice(item.material.daily_price),
+          },
+        }));
 
-      setContract({
-        ...data,
-        delivery_price_formatted: formatPrice(data.delivery_price),
-        daily_total_price_formatted: formatPrice(data.daily_total_price),
-        created_at_formatted,
-        contract_items,
-      });
-      setIsLoading(false);
+        setContract({
+          ...data,
+          delivery_price_formatted: formatPrice(data.delivery_price),
+          daily_total_price_formatted: formatPrice(data.daily_total_price),
+          created_at_formatted,
+          contract_items,
+        });
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Error ao carregar detalhes do contrato',
+          description:
+            'Houve um error ao carregar os detalhes do contrato, tente novamente mais tarde!',
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     loadContract();
-  }, [id]);
+  }, [id, addToast]);
 
   if (isLoading) {
     return (
@@ -144,6 +174,27 @@ const DetailsContract: React.FC = () => {
     );
   }
 
+  if (!contract) {
+    return (
+      <Container>
+        <Content>
+          <header>
+            <h1>DETALHES DO CONTRATO</h1>
+
+            <section>
+              <BackButton />
+
+              <FinishContractButton
+                disabled={!contract}
+                isLoading={isLoading}
+              />
+            </section>
+          </header>
+        </Content>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Content>
@@ -161,11 +212,14 @@ const DetailsContract: React.FC = () => {
         </header>
 
         {showForm && (
-          <Form onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <InputCurrency disabled name="final_price" label="VALOR FINAL" />
             <InputCurrency
               name="collect_price"
               label="VALOR DE COLETA"
               placeholder="R$ 0,00"
+              onKeyUp={handleCollectPriceChange}
+              onFocus={handleCollectPriceChange}
               autoFocus
             />
 

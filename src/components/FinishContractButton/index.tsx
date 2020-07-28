@@ -12,10 +12,16 @@ const FinishContractButton: React.FC<ButtonProps> = ({
   onClick,
   isLoading,
   showForm = false,
+  ...rest
 }) => {
   if (showForm) {
     return (
-      <ButtonContainer type="button" onClick={onClick} disabled={isLoading}>
+      <ButtonContainer
+        type="button"
+        onClick={onClick}
+        disabled={isLoading}
+        {...rest}
+      >
         <FiXCircle size={20} />
         CANCELAR
       </ButtonContainer>
@@ -23,7 +29,12 @@ const FinishContractButton: React.FC<ButtonProps> = ({
   }
 
   return (
-    <ButtonContainer type="button" onClick={onClick} disabled={isLoading}>
+    <ButtonContainer
+      type="button"
+      onClick={onClick}
+      disabled={isLoading}
+      {...rest}
+    >
       <FiCheckCircle size={20} />
       {isLoading ? 'CARREGANDO ...' : 'FINALIZAR CONTRATO'}
     </ButtonContainer>

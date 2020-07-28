@@ -179,6 +179,10 @@ export const Form = styled(UnForm)`
 
   display: flex;
   align-items: flex-end;
+
+  label + label {
+    margin-left: 16px;
+  }
 `;
 
 export const FinishButton = styled.button.attrs({

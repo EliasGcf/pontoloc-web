@@ -72,7 +72,7 @@ export const Client = styled.div`
     justify-content: space-between;
 
     & + section {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 `;
@@ -99,7 +99,7 @@ export const Contract = styled.div`
     justify-content: space-between;
 
     & + section {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 `;

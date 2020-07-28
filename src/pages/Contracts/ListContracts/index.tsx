@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Ring } from 'react-awesome-spinners';
-import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+import {
+  useQueryParam,
+  NumberParam,
+  StringParam,
+  BooleanParam,
+} from 'use-query-params';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
@@ -34,6 +39,10 @@ const ListContracts: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [queryPage, setQueryPage] = useQueryParam('page', NumberParam);
   const [queryName, setQueryName] = useQueryParam('name', StringParam);
+  const [queryFinished, setQueryFinished] = useQueryParam(
+    'finished',
+    BooleanParam,
+  );
 
   const history = useHistory();
   const { addToast } = useToast();
@@ -54,6 +63,16 @@ const ListContracts: React.FC = () => {
     setQueryPage(state => (state || 2) - 1);
   }, [setQueryPage]);
 
+  const handleToggleFinished = useCallback(
+    async (finished: boolean) => {
+      if (queryFinished === finished) return;
+
+      setQueryPage(1);
+      setQueryFinished(state => !state);
+    },
+    [setQueryFinished, setQueryPage, queryFinished],
+  );
+
   useEffect(() => {
     async function loadContracts(): Promise<void> {
       try {
@@ -62,6 +81,7 @@ const ListContracts: React.FC = () => {
           params: {
             page: queryPage || 1,
             name: queryName || undefined,
+            finished: queryFinished || undefined,
           },
         });
 
@@ -92,7 +112,7 @@ const ListContracts: React.FC = () => {
     }
 
     loadContracts();
-  }, [addToast, queryName, queryPage]);
+  }, [addToast, queryName, queryPage, queryFinished]);
 
   if (loading) {
     return (
@@ -109,6 +129,36 @@ const ListContracts: React.FC = () => {
           <S.MessageContainer>
             <Ring size={100} color="#FBC131" />
           </S.MessageContainer>
+
+          <S.Pagination>
+            {!(queryPage === 1 || !queryPage) && (
+              <ChangePageButton
+                changePageTo="decrement"
+                onClick={decrementPage}
+              />
+            )}
+            <div>
+              <S.FinishedFilterButton
+                isSelected={!queryFinished}
+                onClick={() => handleToggleFinished(false)}
+              >
+                ABERTOS
+              </S.FinishedFilterButton>
+              <S.FinishedFilterButton
+                isSelected={!!queryFinished}
+                onClick={() => handleToggleFinished(true)}
+              >
+                FINALIZADOS
+              </S.FinishedFilterButton>
+            </div>
+            {!(pagesAvailable <= 1 || queryPage === pagesAvailable) && (
+              <ChangePageButton
+                changePageTo="increment"
+                onClick={incrementPage}
+                style={{ marginLeft: 'auto' }}
+              />
+            )}
+          </S.Pagination>
         </S.Content>
       </S.Container>
     );
@@ -128,6 +178,36 @@ const ListContracts: React.FC = () => {
           <S.MessageContainer>
             <span>Nenhum contrato foi encontrado.</span>
           </S.MessageContainer>
+
+          <S.Pagination>
+            {!(queryPage === 1 || !queryPage) && (
+              <ChangePageButton
+                changePageTo="decrement"
+                onClick={decrementPage}
+              />
+            )}
+            <div>
+              <S.FinishedFilterButton
+                isSelected={!queryFinished}
+                onClick={() => handleToggleFinished(false)}
+              >
+                ABERTOS
+              </S.FinishedFilterButton>
+              <S.FinishedFilterButton
+                isSelected={!!queryFinished}
+                onClick={() => handleToggleFinished(true)}
+              >
+                FINALIZADOS
+              </S.FinishedFilterButton>
+            </div>
+            {!(pagesAvailable <= 1 || queryPage === pagesAvailable) && (
+              <ChangePageButton
+                changePageTo="increment"
+                onClick={incrementPage}
+                style={{ marginLeft: 'auto' }}
+              />
+            )}
+          </S.Pagination>
         </S.Content>
       </S.Container>
     );
@@ -177,6 +257,20 @@ const ListContracts: React.FC = () => {
               onClick={decrementPage}
             />
           )}
+          <div>
+            <S.FinishedFilterButton
+              isSelected={!queryFinished}
+              onClick={() => handleToggleFinished(false)}
+            >
+              ABERTOS
+            </S.FinishedFilterButton>
+            <S.FinishedFilterButton
+              isSelected={!!queryFinished}
+              onClick={() => handleToggleFinished(true)}
+            >
+              FINALIZADOS
+            </S.FinishedFilterButton>
+          </div>
           {!(pagesAvailable <= 1 || queryPage === pagesAvailable) && (
             <ChangePageButton
               changePageTo="increment"

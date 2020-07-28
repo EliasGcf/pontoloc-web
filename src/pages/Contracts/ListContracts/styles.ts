@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
 
+interface FinishedFilterButtonProps {
+  isSelected: boolean;
+}
+
 export const Container = styled.div`
   width: 100%;
   display: flex;
@@ -98,4 +102,48 @@ export const Pagination = styled.div`
   justify-content: space-between;
   margin-top: auto;
   margin-bottom: 60px;
+
+  position: relative;
+
+  div {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+  }
+`;
+
+export const FinishedFilterButton = styled.button<FinishedFilterButtonProps>`
+  height: 46px;
+  border: none;
+  padding: 0 8px 0 16px;
+  border-radius: 10px 0 0 10px;
+
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.3s, color 0.3s;
+
+  background: ${({ theme, isSelected }) =>
+    isSelected ? theme.colors.yellow : theme.colors.dark};
+
+  color: ${({ theme, isSelected }) =>
+    isSelected ? theme.colors.dark : theme.colors.white};
+
+  &:hover {
+    background: ${({ theme, isSelected }) =>
+      !isSelected && shade(0.5, theme.colors.yellow)};
+  }
+
+  cursor: ${({ isSelected }) => (isSelected ? 'not-allowed' : 'pointer')};
+
+  & + button {
+    border-radius: 0 10px 10px 0;
+    padding: 0 16px 0 8px;
+  }
 `;

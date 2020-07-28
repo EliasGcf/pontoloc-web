@@ -29,7 +29,9 @@ import {
 interface ContractData {
   id: string;
   number: number;
+
   collect_price: number | null;
+  collect_price_formatted: string;
 
   delivery_price: number;
   delivery_price_formatted: string;
@@ -38,7 +40,10 @@ interface ContractData {
   daily_total_price_formatted: string;
 
   final_price: number;
+  final_price_formatted: string;
+
   collect_at: Date | null;
+  collect_at_formatted: string;
 
   created_at: string;
   created_at_formatted: string;
@@ -130,9 +135,14 @@ const DetailsContract: React.FC = () => {
         const { data } = response;
 
         const createdAtDate = new Date(data.created_at);
-        const dateFormated = createdAtDate.toLocaleDateString('pt-BR');
-        const timeFormated = createdAtDate.toLocaleTimeString('pt-BR');
+        let dateFormated = createdAtDate.toLocaleDateString('pt-BR');
+        let timeFormated = createdAtDate.toLocaleTimeString('pt-BR');
         const created_at_formatted = `${dateFormated} às ${timeFormated}`;
+
+        const collectAt = new Date(data.collect_at || 0);
+        dateFormated = collectAt.toLocaleDateString('pt-BR');
+        timeFormated = collectAt.toLocaleTimeString('pt-BR');
+        const collect_at_formatted = `${dateFormated} às ${timeFormated}`;
 
         const contract_items = data.contract_items.map(item => ({
           ...item,
@@ -149,8 +159,11 @@ const DetailsContract: React.FC = () => {
           ...data,
           delivery_price_formatted: formatPrice(data.delivery_price),
           daily_total_price_formatted: formatPrice(data.daily_total_price),
+          collect_price_formatted: formatPrice(data.collect_price || 0),
+          final_price_formatted: formatPrice(data.final_price),
           created_at_formatted,
           contract_items,
+          collect_at_formatted,
         });
       } catch (err) {
         addToast({
@@ -177,7 +190,10 @@ const DetailsContract: React.FC = () => {
             <section>
               <BackButton />
 
-              <FinishContractButton isLoading={isLoading} />
+              <FinishContractButton
+                disabled={!!contract?.collect_at}
+                isLoading={isLoading}
+              />
             </section>
           </header>
         </Content>
@@ -220,6 +236,7 @@ const DetailsContract: React.FC = () => {
             <FinishContractButton
               onClick={toggleShowForm}
               isLoading={isLoading}
+              disabled={!!contract.collect_at}
               showForm={showForm}
             />
           </section>
@@ -262,11 +279,25 @@ const DetailsContract: React.FC = () => {
             <Line />
             <h2>{contract.delivery_price_formatted}</h2>
           </section>
+          {contract.collect_at && (
+            <section>
+              <h2>Valor de coleta</h2>
+              <Line />
+              <h2>{contract.collect_price_formatted}</h2>
+            </section>
+          )}
           <section>
             <h2>Data de retirada</h2>
             <Line />
             <h2>{contract.created_at_formatted}</h2>
           </section>
+          {contract.collect_at && (
+            <section>
+              <h2>Data de devolução</h2>
+              <Line />
+              <h2>{contract.collect_at_formatted}</h2>
+            </section>
+          )}
         </Contract>
 
         <MaterialTable>
@@ -291,7 +322,13 @@ const DetailsContract: React.FC = () => {
         </MaterialTable>
 
         <FinalInformations>
-          <span>{`TOTAL: ${contract.daily_total_price_formatted}`}</span>
+          <span>
+            {`TOTAL: ${
+              contract.final_price
+                ? contract.final_price_formatted
+                : contract.daily_total_price_formatted
+            }`}
+          </span>
         </FinalInformations>
       </Content>
     </Container>

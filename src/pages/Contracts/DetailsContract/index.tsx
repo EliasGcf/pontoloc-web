@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Ring } from 'react-awesome-spinners';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import { FormHandles } from '@unform/core';
 
@@ -79,6 +79,7 @@ const DetailsContract: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   const { addToast } = useToast();
+  const history = useHistory();
 
   const handleCollectPriceChange = useCallback(() => {
     const finalPrice = contractFinalPrice({
@@ -100,13 +101,26 @@ const DetailsContract: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
-      setIsLoading(true);
-      await api.put(`/contracts/${id}/finish`, {
-        collect_price: Number(data.collect_price),
-      });
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        await api.put(`/contracts/${id}/finish`, {
+          collect_price: Number(data.collect_price),
+        });
+        setIsLoading(false);
+
+        addToast({
+          type: 'success',
+          title: 'Contrato finalizado com sucesso!',
+        });
+        history.goBack();
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Error ao finalizar contrato',
+        });
+      }
     },
-    [id],
+    [id, addToast, history],
   );
 
   useEffect(() => {
